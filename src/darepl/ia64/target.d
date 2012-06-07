@@ -2,6 +2,7 @@ module darepl.ia64.target;
 
 import darepl.core.common,
        darepl.core.console,
+       darepl.core.lexer,
        darepl.core.target;
 
 public final class IA64Target : Target
@@ -18,12 +19,10 @@ public final class IA64Target : Target
 
     public override bool run(ubyte bits)
     {
-        repl(bits);
-
-        return true;
+        return repl(bits);
     }
 
-    protected override bool handleStatement(string statement)
+    protected override bool handleStatement(Token[] tokens)
     {
         return true;
     }

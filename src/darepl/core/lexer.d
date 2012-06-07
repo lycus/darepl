@@ -244,6 +244,7 @@ public class Lexer
                 if (_position == _string.length)
                     return tokens;
 
+                write("Could not lex input completely.");
                 return null;
             }
         }
@@ -421,19 +422,38 @@ public class Lexer
 
         if (moveNext() != '/')
         {
-            write("Expected literal:type expression.");
+            write("Expected <literal>/<type> expression.");
             return null;
         }
 
         auto typeStr = [moveNext(), moveNext()];
         LiteralType type;
 
-        try
-            type = to!LiteralType(typeStr);
-        catch (ConvException)
+        if (typeStr == "i8")
+            type = LiteralType.int8;
+        else
         {
-            write("Expected i8, i16, i32, i64, f32, or f64.");
-            return null;
+            switch (typeStr ~ moveNext())
+            {
+                case "i16":
+                    type = LiteralType.int16;
+                    break;
+                case "i32":
+                    type = LiteralType.int32;
+                    break;
+                case "i64":
+                    type = LiteralType.int64;
+                    break;
+                case "f32":
+                    type = LiteralType.float32;
+                    break;
+                case "f64":
+                    type = LiteralType.float64;
+                    break;
+                default:
+                    write("Expected i8, i16, i32, i64, f32, or f64.");
+                    return null;
+            }
         }
 
         uint radixNo;

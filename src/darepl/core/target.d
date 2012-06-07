@@ -3,7 +3,8 @@ module darepl.core.target;
 import std.algorithm,
        std.string,
        darepl.core.common,
-       darepl.core.console;
+       darepl.core.console,
+       darepl.core.lexer;
 
 public abstract class Target
 {
@@ -13,16 +14,19 @@ public abstract class Target
 
     public abstract bool run(ubyte bits);
 
-    protected abstract bool handleStatement(string statement);
-
-    protected final void repl(ubyte bits)
+    protected Lexer createLexer(string input)
     {
-        bool stop;
+        return new Lexer(input);
+    }
 
+    protected abstract bool handleStatement(Token[] tokens);
+
+    protected final bool repl(ubyte bits)
+    {
         writef("Running REPL for architecture %s (%s)...", architecture, bits);
         write();
 
-        while (!stop)
+        while (true)
         {
             auto line = read(architecture, bits);
 
@@ -43,7 +47,7 @@ public abstract class Target
                         case "quit":
                         case "q":
                             writef("Exiting...");
-                            return;
+                            return true;
                         case "arch":
                             writef("Emulating architecture: %s", architecture);
                             break;
@@ -54,8 +58,17 @@ public abstract class Target
                             writef("Unknown REPL command: %s", command);
                     }
                 }
-                else if (!handleStatement(trimmed))
-                    return;
+                else
+                {
+                    auto lexer = createLexer(trimmed);
+                    auto tokens = lexer.lex();
+
+                    if (!tokens)
+                        continue;
+
+                    if (!handleStatement(tokens))
+                        return false;
+                }
             }
         }
     }

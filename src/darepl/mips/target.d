@@ -2,6 +2,7 @@ module darepl.mips.target;
 
 import darepl.core.common,
        darepl.core.console,
+       darepl.core.lexer,
        darepl.core.target;
 
 public final class MIPSTarget : Target
@@ -20,12 +21,10 @@ public final class MIPSTarget : Target
     {
         auto lp64 = bits == 64;
 
-        repl(bits);
-
-        return true;
+        return repl(bits);
     }
 
-    protected override bool handleStatement(string statement)
+    protected override bool handleStatement(Token[] tokens)
     {
         return true;
     }
