@@ -44,6 +44,12 @@ public abstract class Target
                         case "q":
                             writef("Exiting...");
                             return;
+                        case "arch":
+                            writef("Emulating architecture: %s", architecture);
+                            break;
+                        case "bits":
+                            writef("Emulating bitness: %s", bits);
+                            break;
                         default:
                             writef("Unknown REPL command: %s", command);
                     }

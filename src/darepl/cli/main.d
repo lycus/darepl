@@ -110,7 +110,7 @@ body
 
     if (!target.supportedBits.canFind(bits))
     {
-        writef("The architecture %s doesn't support bits: %s", arch, bits);
+        writef("The architecture %s doesn't support bitness: %s", arch, bits);
         return 2;
     }
 
