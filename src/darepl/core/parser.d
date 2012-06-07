@@ -1,6 +1,36 @@
 module darepl.core.parser;
 
-import darepl.core.lexer;
+import std.string,
+       darepl.core.lexer;
+
+public class ParserException : Exception
+{
+    public this(string msg, string file = __FILE__, size_t line = __LINE__)
+    in
+    {
+        assert(msg);
+        assert(file);
+        assert(line);
+    }
+    body
+    {
+        super(msg, file, line);
+    }
+
+    public this(string msg, Throwable next, string file = __FILE__, size_t line = __LINE__)
+    in
+    {
+        assert(msg);
+        assert(next);
+        assert(file);
+        assert(line);
+    }
+    body
+    {
+        super(msg, next, file, line);
+    }
+}
+
 
 public abstract class Parser
 {
@@ -19,10 +49,15 @@ public abstract class Parser
     }
     body
     {
-        _tokens = tokens;
+        _tokens ~= null;
+        _tokens ~= tokens;
     }
 
     protected final Token current()
+    in
+    {
+        assert(_position);
+    }
     out (result)
     {
         assert(result);
@@ -49,12 +84,12 @@ public abstract class Parser
     }
     body
     {
-        return _tokens[_position - 1];
+        return _tokens[_position + 1];
     }
 
     protected final bool done()
     {
-        return _position == _tokens.length;
+        return _position == _tokens.length - 1;
     }
 
     protected final Token movePrevious()
@@ -88,6 +123,11 @@ public abstract class Parser
             return null;
 
         return _tokens[_position + 1];
+    }
+
+    protected final void error(T ...)(T args)
+    {
+        throw new ParserException(format(args));
     }
 
     public abstract Object parse();

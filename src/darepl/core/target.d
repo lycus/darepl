@@ -70,7 +70,12 @@ public abstract class Target
                         continue;
 
                     auto parser = createParser(tokens);
-                    auto insn = parser.parse();
+                    Object insn;
+
+                    try
+                        insn = parser.parse();
+                    catch (ParserException ex)
+                        write(ex.msg);
 
                     if (!insn)
                         continue;
