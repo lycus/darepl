@@ -110,7 +110,7 @@ body
 
     if (!target.supportedBits.canFind(bits))
     {
-        writef("The target %s doesn't support bits: %s", bits);
+        writef("The architecture %s doesn't support bits: %s", arch, bits);
         return 2;
     }
 
