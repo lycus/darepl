@@ -2,6 +2,7 @@ module darepl.core.lexer;
 
 import std.ascii,
        std.conv,
+       std.string,
        std.variant,
        darepl.core.console;
 
@@ -315,7 +316,7 @@ public class Lexer
             id ~= moveNext();
         }
 
-        return new IdentifierToken(id);
+        return new IdentifierToken(toLower(id));
     }
 
     protected final Token lexLiteral(char chr)
