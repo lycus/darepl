@@ -21,3 +21,5 @@ that the REPL actually supports emulation for is:
     * PowerPC (32-bit and 64-bit)
     * Itanium (64-bit)
     * MIPS (32-bit and 64-bit)
+
+Only POSIX operating systems are supported.
