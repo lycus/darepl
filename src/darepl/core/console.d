@@ -25,7 +25,7 @@ out (result)
 }
 body
 {
-    std.stdio.writef("%s (%s)> ", arch, bits);
+    std.stdio.writef("%s-%s> ", arch, bits);
 
     return readln();
 }
