@@ -5,7 +5,13 @@ import core.memory,
        std.getopt,
        std.stdio,
        std.traits,
-       darepl.core.common;
+       darepl.core.common,
+       darepl.arm.target,
+       darepl.core.target,
+       darepl.ia64.target,
+       darepl.mips.target,
+       darepl.ppc.target,
+       darepl.x86.target;
 
 private ubyte run(string[] args)
 in
@@ -80,7 +86,28 @@ body
         return 2;
     }
 
-    return 0;
+    Target target;
+
+    final switch (arch)
+    {
+        case Architecture.x86:
+            target = new X86Target();
+            break;
+        case Architecture.arm:
+            target = new ARMTarget();
+            break;
+        case Architecture.ppc:
+            target = new PPCTarget();
+            break;
+        case Architecture.ia64:
+            target = new IA64Target();
+            break;
+        case Architecture.mips:
+            target = new MIPSTarget();
+            break;
+    }
+
+    return target.run(bits) ? 0 : 1;
 }
 
 private void usage(string cli)
@@ -99,11 +126,24 @@ public void log(T ...)(T args)
 }
 
 public void logf(T ...)(T args)
+in
+{
+    assert(args.length);
+}
+body
 {
     writefln(args);
 }
 
 private int main(string[] args)
+in
+{
+    assert(args);
+
+    foreach (arg; args)
+        assert(arg);
+}
+body
 {
     scope (exit)
         GC.collect();

@@ -1,6 +1,6 @@
 module darepl.core.common;
 
-public enum Architecture
+public enum Architecture : ubyte
 {
     x86,
     arm,
