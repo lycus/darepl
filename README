@@ -1,0 +1,20 @@
+            == DAREPL: D Architecture REPL ==
+
+                -- Introduction --
+
+DAREPL (short for D Architecture REPL) is a developer tool that lets you
+interactively type in assembly instructions for a specific target CPU
+and watch the effect they have on the machine state.
+
+For further information, see:
+
+    * LICENSE
+      - Licensing and copyright information.
+    * COMPATIBILITY
+      - Supported compilers, architectures, operating systems, etc.
+    * INSTALL
+      - Instructions on building and installing DAREPL.
+    * AUTHORS
+      - Names and contact information for DAREPL developers.
+    * STYLE
+      - Coding style rules (only relevant if you're a contributor).

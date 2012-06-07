@@ -1,0 +1,51 @@
+            == DAREPL: D Architecture REPL ==
+
+                -- Installation --
+
+Installation works through the Waf build system. You can obtain Waf
+from: http://code.google.com/p/waf
+
+Once installed, you must configure the project like so:
+
+    $ waf configure
+
+You can use the --prefix option to specify where to install to. This
+defaults to "/usr/local" normally. The --check-d-compiler switch can be
+used to specify which compiler to build with. This will typically be
+"dmd", "gdc", or "ldc".
+
+The DAREPL Waf script also supports some additional options:
+
+    * --lp64 (= "true")
+      - Whether to build for 64-bit pointers.
+    * --mode (= "debug")
+      - Which mode to build in. Building in "debug" disables any and
+        all optimizations, while "release" enables optimization and
+        inlining. Note that both modes will generate debug information
+        and emit array bounds checks.
+
+For example, to build for a 32-bit CPU, do:
+
+    $ waf configure --lp64=false
+
+Or to include Vim syntax files:
+
+    $ waf configure --vim=~/.vim
+
+You will likely want to build a release version if you're not a
+contributor to the project, so:
+
+    $ waf configure --mode=release
+
+With the project configured, you can execute a build by doing:
+
+    $ waf build
+
+To install the project:
+
+    $ waf install
+
+Should you wish to uninstall the installed files at a later point,
+simply execute:
+
+    $ waf uninstall

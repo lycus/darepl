@@ -1,0 +1,23 @@
+            == DAREPL: D Architecture REPL ==
+
+                -- Compatibility --
+
+DAREPL generally requires version 2.0 of the D language.
+
+The following compilers are supported:
+
+    * Digital Mars D (DMD)
+    * GNU D Compiler (GDC)
+    * LLVM D Compiler (LDC)
+
+DAREPL will probably compile even if you're using an unsupported
+compiler, but we cannot in any way guarantee support.
+
+DAREPL can be built on any architecture, but the list of architectures
+that the REPL actually supports emulation for is:
+
+    * x86 (32-bit and 64-bit)
+    * ARM (32-bit)
+    * PowerPC (32-bit and 64-bit)
+    * Itanium (64-bit)
+    * MIPS (32-bit and 64-bit)
