@@ -4,7 +4,8 @@ import std.algorithm,
        std.string,
        darepl.core.common,
        darepl.core.console,
-       darepl.core.lexer;
+       darepl.core.lexer,
+       darepl.core.parser;
 
 public abstract class Target
 {
@@ -19,7 +20,9 @@ public abstract class Target
         return new Lexer(input);
     }
 
-    protected abstract bool handleStatement(Token[] tokens);
+    protected abstract Parser createParser(Token[] tokens);
+
+    protected abstract bool handleInstruction(Object instruction);
 
     protected final bool repl(ubyte bits)
     {
@@ -66,7 +69,13 @@ public abstract class Target
                     if (!tokens)
                         continue;
 
-                    if (!handleStatement(tokens))
+                    auto parser = createParser(tokens);
+                    auto insn = parser.parse();
+
+                    if (!insn)
+                        continue;
+
+                    if (!handleInstruction(insn))
                         return false;
                 }
             }

@@ -3,6 +3,7 @@ module darepl.mips.target;
 import darepl.core.common,
        darepl.core.console,
        darepl.core.lexer,
+       darepl.core.parser,
        darepl.core.target;
 
 public final class MIPSTarget : Target
@@ -17,6 +18,11 @@ public final class MIPSTarget : Target
         return [32, 64];
     }
 
+    protected override Parser createParser(Token[] tokens)
+    {
+        assert(false);
+    }
+
     public override bool run(ubyte bits)
     {
         auto lp64 = bits == 64;
@@ -24,7 +30,7 @@ public final class MIPSTarget : Target
         return repl(bits);
     }
 
-    protected override bool handleStatement(Token[] tokens)
+    protected override bool handleInstruction(Object instruction)
     {
         return true;
     }
