@@ -6,6 +6,11 @@ import darepl.core.common,
 
 public final class X86Target : Target
 {
+    @property public override Architecture architecture()
+    {
+        return Architecture.x86;
+    }
+
     @property public override ubyte[] supportedBits()
     {
         return [32, 64];
@@ -15,6 +20,13 @@ public final class X86Target : Target
     {
         auto lp64 = bits == 64;
 
+        repl(bits);
+
+        return true;
+    }
+
+    protected override bool handleStatement(string statement)
+    {
         return true;
     }
 }
