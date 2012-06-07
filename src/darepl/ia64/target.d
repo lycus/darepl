@@ -5,17 +5,13 @@ import darepl.core.console,
 
 public final class IA64Target : Target
 {
+    @property public override ubyte[] supportedBits()
+    {
+        return [64];
+    }
+
     public override bool run(ubyte bits)
     {
-        switch (bits)
-        {
-            case 64:
-                break;
-            default:
-                writef("Unsupported bits: %s", bits);
-                return false;
-        }
-
         return true;
     }
 }

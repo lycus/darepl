@@ -1,6 +1,7 @@
 module darepl.cli.main;
 
 import core.memory,
+       std.algorithm,
        std.conv,
        std.getopt,
        std.traits,
@@ -105,6 +106,12 @@ body
         case Architecture.mips:
             target = new MIPSTarget();
             break;
+    }
+
+    if (!target.supportedBits.canFind(bits))
+    {
+        writef("The target %s doesn't support bits: %s", bits);
+        return 2;
     }
 
     return target.run(bits) ? 0 : 1;
