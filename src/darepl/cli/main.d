@@ -1,8 +1,11 @@
 module darepl.cli.main;
 
 import core.memory,
+       std.conv,
+       std.getopt,
        std.stdio,
-       std.getopt;
+       std.traits,
+       darepl.core.common;
 
 private ubyte run(string[] args)
 in
@@ -23,7 +26,6 @@ body
         getopt(args,
                config.caseSensitive,
                config.bundling,
-               config.passThrough,
                "help|h", &help);
     }
     catch (Exception ex)
@@ -40,12 +42,41 @@ body
     if (help)
     {
         usage(cli);
+        log();
+
+        log("    arch: Which architecture to emulate in the REPL instance.");
+        log("    bits: Pointer length to emulate (32/64). Some targets only support 32.");
+        log();
+
+        log("Available architectures:");
+        log();
+
+        foreach (val; EnumMembers!Architecture)
+            logf("    * %s", val);
+
+        log();
+
         return 0;
     }
 
-    if (args.length < 2)
+    if (args.length < 3)
     {
         usage(cli);
+
+        return 2;
+    }
+
+    Architecture arch;
+    ubyte bits;
+
+    try
+    {
+        arch = to!Architecture(args[1]);
+        bits = to!ubyte(args[2]);
+    }
+    catch (ConvException ex)
+    {
+        logf("Could not parse architecture/bitness arguments: %s", ex.msg);
         return 2;
     }
 
@@ -59,7 +90,7 @@ in
 }
 body
 {
-    logf("Usage: %s [--help|-h]", cli);
+    logf("Usage: %s [--help|-h] <arch> <bits>", cli);
 }
 
 public void log(T ...)(T args)
