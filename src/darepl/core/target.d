@@ -44,7 +44,7 @@ public abstract class Target
                 {
                     auto command = trimmed[1 .. $];
 
-                    switch (command)
+                    switch (toLower(command))
                     {
                         case "exit":
                         case "quit":
