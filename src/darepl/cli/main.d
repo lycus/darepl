@@ -3,9 +3,9 @@ module darepl.cli.main;
 import core.memory,
        std.conv,
        std.getopt,
-       std.stdio,
        std.traits,
        darepl.core.common,
+       darepl.core.console,
        darepl.arm.target,
        darepl.core.target,
        darepl.ia64.target,
@@ -36,31 +36,31 @@ body
     }
     catch (Exception ex)
     {
-        logf("Error: Could not parse command line: %s", ex.msg);
+        writef("Error: Could not parse command line: %s", ex.msg);
         return 2;
     }
 
-    log("D Architecture REPL (DAREPL) 1.0");
-    log("Copyright (c) 2012 The Lycus Foundation - http://lycus.org");
-    log("Available under the terms of the MIT License");
-    log();
+    write("D Architecture REPL (DAREPL) 1.0");
+    write("Copyright (c) 2012 The Lycus Foundation - http://lycus.org");
+    write("Available under the terms of the MIT License");
+    write();
 
     if (help)
     {
         usage(cli);
-        log();
+        write();
 
-        log("    arch: Which architecture to emulate in the REPL instance.");
-        log("    bits: Pointer length to emulate (32/64). Some targets only support 32.");
-        log();
+        write("    arch: Which architecture to emulate in the REPL instance.");
+        write("    bits: Pointer length to emulate (32/64). Some targets only support 32.");
+        write();
 
-        log("Available architectures:");
-        log();
+        write("Available architectures:");
+        write();
 
         foreach (val; EnumMembers!Architecture)
-            logf("    * %s", val);
+            writef("    * %s", val);
 
-        log();
+        write();
 
         return 0;
     }
@@ -82,7 +82,7 @@ body
     }
     catch (ConvException ex)
     {
-        logf("Could not parse architecture/bitness arguments: %s", ex.msg);
+        writef("Could not parse architecture/bitness arguments: %s", ex.msg);
         return 2;
     }
 
@@ -117,22 +117,7 @@ in
 }
 body
 {
-    logf("Usage: %s [--help|-h] <arch> <bits>", cli);
-}
-
-public void log(T ...)(T args)
-{
-    writeln(args);
-}
-
-public void logf(T ...)(T args)
-in
-{
-    assert(args.length);
-}
-body
-{
-    writefln(args);
+    writef("Usage: %s [--help|-h] <arch> <bits>", cli);
 }
 
 private int main(string[] args)
