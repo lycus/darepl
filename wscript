@@ -93,7 +93,11 @@ def build(bld):
     stlib('ia64', 'darepl.ia64')
     stlib('mips', 'darepl.mips')
 
-    deps = ['darepl.x86',
+    deps = ['darepl.mips',
+            'darepl.ia64',
+            'darepl.ppc',
+            'darepl.arm',
+            'darepl.x86',
             'darepl.core']
 
     program('cli', 'darepl', deps)
