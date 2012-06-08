@@ -15,7 +15,7 @@ public final class X86LiteralExpression : X86Expression
 {
     private Literal _literal;
 
-    private this(Literal literal)
+    public this(Literal literal)
     {
         _literal = literal;
     }
@@ -30,7 +30,7 @@ public final class X86RegisterExpression : X86Expression
 {
     private X86Register _register;
 
-    private this(X86Register register)
+    public this(X86Register register)
     {
         _register = register;
     }
@@ -52,7 +52,7 @@ public abstract class X86BinaryExpression : X86Expression
         assert(_right);
     }
 
-    private this(X86Expression left, X86Expression right)
+    public this(X86Expression left, X86Expression right)
     in
     {
         assert(left);
@@ -87,7 +87,7 @@ public abstract class X86BinaryExpression : X86Expression
 
 public final class X86AddExpression : X86BinaryExpression
 {
-    private this(X86Expression left, X86Expression right)
+    public this(X86Expression left, X86Expression right)
     in
     {
         assert(left);
@@ -101,7 +101,7 @@ public final class X86AddExpression : X86BinaryExpression
 
 public final class X86MultiplyExpression : X86BinaryExpression
 {
-    private this(X86Expression left, X86Expression right)
+    public this(X86Expression left, X86Expression right)
     in
     {
         assert(left);
@@ -113,37 +113,7 @@ public final class X86MultiplyExpression : X86BinaryExpression
     }
 }
 
-public final class X86Reference
-{
-    private X86Expression _expression;
-
-    invariant()
-    {
-        assert(_expression);
-    }
-
-    private this(X86Expression expression)
-    in
-    {
-        assert(expression);
-    }
-    body
-    {
-        _expression = expression;
-    }
-
-    @property public X86Expression expression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        return _expression;
-    }
-}
-
-public alias Algebraic!(X86Reference, X86Register, Literal) X86Operand;
+public alias Algebraic!(X86Expression, X86Register, Literal) X86Operand;
 
 public final class X86Instruction
 {

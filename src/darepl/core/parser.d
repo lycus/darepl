@@ -109,20 +109,10 @@ public abstract class Parser
     }
     body
     {
+        if (done())
+            error("Unexpected end of input.");
+
         return _tokens[++_position];
-    }
-
-    protected final Token peek()
-    {
-        return _tokens[_position + 1];
-    }
-
-    protected final Token peekEnd()
-    {
-        if (_position == _tokens.length)
-            return null;
-
-        return _tokens[_position + 1];
     }
 
     protected final void error(T ...)(T args)

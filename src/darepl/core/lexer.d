@@ -123,6 +123,8 @@ public enum DelimiterType : ubyte
     slash,
     openBracket,
     closeBracket,
+    openParen,
+    closeParen,
 }
 
 public final class DelimiterToken : Token
@@ -283,6 +285,10 @@ public class Lexer
                     return new DelimiterToken(DelimiterType.openBracket, [chr]);
                 case ']':
                     return new DelimiterToken(DelimiterType.closeBracket, [chr]);
+                case '(':
+                    return new DelimiterToken(DelimiterType.openParen, [chr]);
+                case ')':
+                    return new DelimiterToken(DelimiterType.closeParen, [chr]);
                 default:
                     break;
             }

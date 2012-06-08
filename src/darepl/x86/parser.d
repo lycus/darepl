@@ -35,9 +35,6 @@ public final class X86Parser : Parser
             }
         }
 
-        if (done())
-            error("Expected opcode mnemonic.");
-
         X86OpCode opCode;
 
         if (auto ident = cast(IdentifierToken)moveNext())
@@ -108,12 +105,104 @@ public final class X86Parser : Parser
             if (bracket.type != DelimiterType.openBracket)
                 error("Invalid opcode operand.");
 
-            assert(false); // TODO: Parse expressions.
+            auto expr = parseExpression();
+            auto closing = cast(DelimiterToken)moveNext();
+
+            if (!closing || closing.type != DelimiterType.closeBracket)
+                error("Expected closing bracket.");
+
+            return X86Operand(expr);
         }
         else if (auto literal = cast(LiteralToken)tok)
             return X86Operand(literal.value);
 
         error("Invalid opcode operand.");
         assert(false);
+    }
+
+    private X86Expression parseExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return parseAddExpression();
+    }
+
+    private X86Expression parsePrimaryExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        auto tok = moveNext();
+
+        if (auto ident = cast(IdentifierToken)tok)
+        {
+            try
+                return new X86RegisterExpression(to!X86Register(ident.value));
+            catch (ConvException)
+                error("Unknown register name: %s", ident.value);
+        }
+        else if (auto literal = cast(LiteralToken)tok)
+            return new X86LiteralExpression(literal.value);
+        else if (auto paren = cast(DelimiterToken)tok)
+        {
+            if (paren.type == DelimiterType.openParen)
+            {
+                auto expr = parseExpression();
+                auto closing = cast(DelimiterToken)moveNext();
+
+                if (!closing || closing.type != DelimiterType.closeParen)
+                    error("Expected closing parenthesis.");
+
+                return expr;
+            }
+        }
+
+        error("Invalid expression operand.");
+        assert(false);
+    }
+
+    private X86Expression parseAddExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        auto e = parseMultiplyExpression();
+
+        if (auto add = cast(DelimiterToken)next())
+        {
+            if (add.type != DelimiterType.plus)
+                return e;
+
+            moveNext();
+        }
+
+        return new X86AddExpression(e, parseMultiplyExpression());
+    }
+
+    private X86Expression parseMultiplyExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        auto e = parsePrimaryExpression();
+
+        if (auto mul = cast(DelimiterToken)next())
+        {
+            if (mul.type != DelimiterType.star)
+                return e;
+
+            moveNext();
+        }
+
+        return new X86MultiplyExpression(e, parsePrimaryExpression());
     }
 }
