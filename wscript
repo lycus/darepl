@@ -90,12 +90,12 @@ def build(bld):
                     install_path = install,
                     dflags = dflags)
 
-    stlib('core', 'darepl.core')
-    stlib('x86', 'darepl.x86')
-    stlib('arm', 'darepl.arm')
-    stlib('ppc', 'darepl.ppc')
-    stlib('ia64', 'darepl.ia64')
-    stlib('mips', 'darepl.mips')
+    stlib('core', 'darepl.core', install = None)
+    stlib('x86', 'darepl.x86', install = None)
+    stlib('arm', 'darepl.arm', install = None)
+    stlib('ppc', 'darepl.ppc', install = None)
+    stlib('ia64', 'darepl.ia64', install = None)
+    stlib('mips', 'darepl.mips', install = None)
 
     deps = ['darepl.mips',
             'darepl.ia64',
