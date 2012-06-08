@@ -156,4 +156,9 @@ public final class X86Instruction
     {
         return _operand3;
     }
+
+    @property public X86Operand[] operands()
+    {
+        return [_operand1, _operand2, _operand3];
+    }
 }

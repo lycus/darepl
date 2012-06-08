@@ -4,6 +4,7 @@ import darepl.core.common,
        darepl.core.console,
        darepl.core.lexer,
        darepl.core.target,
+       darepl.x86.instructions,
        darepl.x86.parser;
 
 public final class X86Target : Target
@@ -30,8 +31,10 @@ public final class X86Target : Target
         return repl(bits);
     }
 
-    protected override bool handleInstruction(Object instruction)
+    protected override bool handleInstruction(Instruction instruction)
     {
+        auto insn = cast(X86Instruction)instruction;
+
         return true;
     }
 }

@@ -22,7 +22,7 @@ public abstract class Target
 
     protected abstract Parser createParser(Token[] tokens);
 
-    protected abstract bool handleInstruction(Object instruction);
+    protected abstract bool handleInstruction(Instruction instruction);
 
     protected final bool repl(ubyte bits)
     {
@@ -70,7 +70,7 @@ public abstract class Target
                         continue;
 
                     auto parser = createParser(tokens);
-                    Object insn;
+                    Instruction insn;
 
                     try
                         insn = parser.parse();

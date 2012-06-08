@@ -31,6 +31,9 @@ public class ParserException : Exception
     }
 }
 
+public abstract class Instruction
+{
+}
 
 public abstract class Parser
 {
@@ -120,5 +123,5 @@ public abstract class Parser
         throw new ParserException(format(args));
     }
 
-    public abstract Object parse();
+    public abstract Instruction parse();
 }

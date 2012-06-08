@@ -28,7 +28,7 @@ public final class IA64Target : Target
         return repl(bits);
     }
 
-    protected override bool handleInstruction(Object instruction)
+    protected override bool handleInstruction(Instruction instruction)
     {
         return true;
     }
