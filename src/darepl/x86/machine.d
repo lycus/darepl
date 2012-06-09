@@ -100,6 +100,15 @@ public final class X86Machine : Machine
             auto rdi = registers[X86RegisterName.rdi] = new X86Register64(X86RegisterName.rdi, edi.memory);
             auto rsp = registers[X86RegisterName.rsp] = new X86Register64(X86RegisterName.rsp, esp.memory);
             auto rbp = registers[X86RegisterName.rbp] = new X86Register64(X86RegisterName.rbp, ebp.memory);
+
+            auto r8 = registers[X86RegisterName.r8] = new X86Register64(X86RegisterName.r8);
+            auto r9 = registers[X86RegisterName.r9] = new X86Register64(X86RegisterName.r9);
+            auto r10 = registers[X86RegisterName.r10] = new X86Register64(X86RegisterName.r10);
+            auto r11 = registers[X86RegisterName.r11] = new X86Register64(X86RegisterName.r11);
+            auto r12 = registers[X86RegisterName.r12] = new X86Register64(X86RegisterName.r12);
+            auto r13 = registers[X86RegisterName.r13] = new X86Register64(X86RegisterName.r13);
+            auto r14 = registers[X86RegisterName.r14] = new X86Register64(X86RegisterName.r14);
+            auto r15 = registers[X86RegisterName.r15] = new X86Register64(X86RegisterName.r15);
         }
     }
 }
