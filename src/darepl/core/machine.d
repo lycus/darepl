@@ -17,6 +17,7 @@ import core.sys.posix.dlfcn,
 public abstract class Machine
 {
     private Target _target;
+    private ubyte _bits;
     private Register[ushort] _registers;
     private Register[] _snapshot;
 
@@ -33,6 +34,7 @@ public abstract class Machine
     body
     {
         _target = target;
+        _bits = bits;
 
         initializeRegisters(bits);
     }
@@ -45,6 +47,11 @@ public abstract class Machine
     body
     {
         return _target;
+    }
+
+    @property public final ubyte bits()
+    {
+        return _bits;
     }
 
     @property public final ref Register[ushort] registers()

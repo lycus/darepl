@@ -13,14 +13,38 @@ import std.conv,
 
 public final class X86Machine : Machine
 {
+    private X86RegisterFlags32 _eflags;
+    private X86RegisterFlags64 _rflags;
+
     public this(X86Target target, ubyte bits)
     in
     {
         assert(target);
+        assert(bits == 32 || bits == 64);
     }
     body
     {
         super(target, bits);
+    }
+
+    @property public X86RegisterFlags32 eflags()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return _eflags;
+    }
+
+    @property public X86RegisterFlags64 rflags()
+    out (result)
+    {
+        assert(bits == 64 ? !!result : !result);
+    }
+    body
+    {
+        return _rflags;
     }
 
     protected override string createDispatchString(Instruction instruction)
@@ -53,17 +77,21 @@ public final class X86Machine : Machine
 
     protected override void initializeRegisters(ubyte bits)
     {
-        auto eax = registers[X86RegisterName.eax] = new X86Register32(X86RegisterName.eax, new RegisterMemory());
-        auto ebx = registers[X86RegisterName.ebx] = new X86Register32(X86RegisterName.ebx, new RegisterMemory());
-        auto ecx = registers[X86RegisterName.ecx] = new X86Register32(X86RegisterName.ecx, new RegisterMemory());
-        auto edx = registers[X86RegisterName.edx] = new X86Register32(X86RegisterName.edx, new RegisterMemory());
-        auto esi = registers[X86RegisterName.esi] = new X86Register32(X86RegisterName.esi, new RegisterMemory());
-        auto edi = registers[X86RegisterName.edi] = new X86Register32(X86RegisterName.edi, new RegisterMemory());
-        auto esp = registers[X86RegisterName.esp] = new X86Register32(X86RegisterName.esp, new RegisterMemory());
-        auto ebp = registers[X86RegisterName.ebp] = new X86Register32(X86RegisterName.ebp, new RegisterMemory());
+        registers[X86RegisterName.eflags] = _eflags = new X86RegisterFlags32();
+
+        auto eax = registers[X86RegisterName.eax] = new X86Register32(X86RegisterName.eax);
+        auto ebx = registers[X86RegisterName.ebx] = new X86Register32(X86RegisterName.ebx);
+        auto ecx = registers[X86RegisterName.ecx] = new X86Register32(X86RegisterName.ecx);
+        auto edx = registers[X86RegisterName.edx] = new X86Register32(X86RegisterName.edx);
+        auto esi = registers[X86RegisterName.esi] = new X86Register32(X86RegisterName.esi);
+        auto edi = registers[X86RegisterName.edi] = new X86Register32(X86RegisterName.edi);
+        auto esp = registers[X86RegisterName.esp] = new X86Register32(X86RegisterName.esp);
+        auto ebp = registers[X86RegisterName.ebp] = new X86Register32(X86RegisterName.ebp);
 
         if (bits == 64)
         {
+            registers[X86RegisterName.rflags] = _rflags = new X86RegisterFlags64(_eflags.memory);
+
             auto rax = registers[X86RegisterName.rax] = new X86Register64(X86RegisterName.rax, eax.memory);
             auto rbx = registers[X86RegisterName.rbx] = new X86Register64(X86RegisterName.rbx, ebx.memory);
             auto rcx = registers[X86RegisterName.rcx] = new X86Register64(X86RegisterName.rcx, ecx.memory);
@@ -136,7 +164,7 @@ public final class X86Register32 : X86Register
         super(name, memory);
     }
 
-    public override Register snapshot()
+    public override X86Register32 snapshot()
     {
         return new X86Register32(register, *memory);
     }
@@ -152,6 +180,65 @@ public final class X86Register32 : X86Register
                       u32,
                       s32,
                       toImpl!string(u32, 16));
+    }
+
+    @property public override bool lp64()
+    {
+        return false;
+    }
+}
+
+public final class X86RegisterFlags32 : X86Register
+{
+    public this()
+    {
+        super(X86RegisterName.eflags);
+    }
+
+    public this(RegisterMemory* memory)
+    in
+    {
+        assert(memory);
+    }
+    body
+    {
+        super(X86RegisterName.eflags, memory);
+    }
+
+    public this(RegisterMemory memory)
+    {
+        super(X86RegisterName.eflags, memory);
+    }
+
+    public override X86RegisterFlags32 snapshot()
+    {
+        return new X86RegisterFlags32(*memory);
+    }
+
+    public override string stringize()
+    {
+        auto u32 = memory.u32[0];
+
+        return format("0b%s (CF: %s PF: %s AF: %s ZF: %s SF: %s TF: %s IF: %s DF: %s OF: %s IOPL: %s NT: %s RF: %s VM: %s AC: %s VIF: %s VIP: %s ID: %s)",
+                      toImpl!string(u32, 2),
+                      memory.bits.b0,
+                      memory.bits.b2,
+                      memory.bits.b4,
+                      memory.bits.b6,
+                      memory.bits.b7,
+                      memory.bits.b8,
+                      memory.bits.b9,
+                      memory.bits.b10,
+                      memory.bits.b11,
+                      memory.bits.b12,
+                      memory.bits.b13,
+                      memory.bits.b14,
+                      memory.bits.b16,
+                      memory.bits.b17,
+                      memory.bits.b18,
+                      memory.bits.b19,
+                      memory.bits.b20,
+                      memory.bits.b21);
     }
 
     @property public override bool lp64()
@@ -182,7 +269,7 @@ public final class X86Register64 : X86Register
         super(name, memory);
     }
 
-    public override Register snapshot()
+    public override X86Register64 snapshot()
     {
         return new X86Register64(register, *memory);
     }
@@ -198,6 +285,65 @@ public final class X86Register64 : X86Register
                       u64,
                       s64,
                       toImpl!string(u64, 16));
+    }
+
+    @property public override bool lp64()
+    {
+        return true;
+    }
+}
+
+public final class X86RegisterFlags64 : X86Register
+{
+    public this()
+    {
+        super(X86RegisterName.rflags);
+    }
+
+    public this(RegisterMemory* memory)
+    in
+    {
+        assert(memory);
+    }
+    body
+    {
+        super(X86RegisterName.rflags, memory);
+    }
+
+    public this(RegisterMemory memory)
+    {
+        super(X86RegisterName.rflags, memory);
+    }
+
+    public override X86RegisterFlags64 snapshot()
+    {
+        return new X86RegisterFlags64(*memory);
+    }
+
+    public override string stringize()
+    {
+        auto u64 = memory.u64[0];
+
+        return format("0b%s (CF: %s PF: %s AF: %s ZF: %s SF: %s TF: %s IF: %s DF: %s OF: %s IOPL: %s NT: %s RF: %s VM: %s AC: %s VIF: %s VIP: %s ID: %s)",
+                      toImpl!string(u64, 2),
+                      memory.bits.b0,
+                      memory.bits.b2,
+                      memory.bits.b4,
+                      memory.bits.b6,
+                      memory.bits.b7,
+                      memory.bits.b8,
+                      memory.bits.b9,
+                      memory.bits.b10,
+                      memory.bits.b11,
+                      memory.bits.b12,
+                      memory.bits.b13,
+                      memory.bits.b14,
+                      memory.bits.b16,
+                      memory.bits.b17,
+                      memory.bits.b18,
+                      memory.bits.b19,
+                      memory.bits.b20,
+                      memory.bits.b21);
     }
 
     @property public override bool lp64()
