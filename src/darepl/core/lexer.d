@@ -545,6 +545,12 @@ public class Lexer
             return null;
         }
 
+        if (literal.length)
+        {
+            writef("Could not lex entire literal value.");
+            return null;
+        }
+
         return new LiteralToken(new Literal(type, value));
     }
 
