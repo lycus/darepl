@@ -117,6 +117,8 @@ public final class X86Parser : Parser
                 case X86RegisterName.eflags:
                 case X86RegisterName.rflags:
                 case X86RegisterName.mxcsr:
+                case X86RegisterName.eip:
+                case X86RegisterName.rip:
                     error("Cannot operate directly on register: %s", reg);
                     break;
                 default:
@@ -172,6 +174,19 @@ public final class X86Parser : Parser
                 reg = to!X86RegisterName(ident.value);
             catch (ConvException)
                 error("Unknown register name: %s", ident.value);
+
+            switch (reg)
+            {
+                case X86RegisterName.eflags:
+                case X86RegisterName.rflags:
+                case X86RegisterName.mxcsr:
+                case X86RegisterName.eip:
+                case X86RegisterName.rip:
+                    error("Cannot operate directly on register: %s", reg);
+                    break;
+                default:
+                    break;
+            }
 
             return new X86RegisterExpression(cast(X86Register)_machine.registers[reg]);
         }
