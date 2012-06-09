@@ -3,8 +3,11 @@ module darepl.core.machine;
 import core.sys.posix.dlfcn,
        std.array,
        std.algorithm,
+       std.bitmanip,
        std.conv,
+       std.metastrings,
        std.range,
+       std.typetuple,
        std.utf,
        ffi,
        darepl.core.console,
@@ -135,8 +138,34 @@ public abstract class Machine
     protected abstract string createDispatchString(Instruction instruction);
 }
 
+private template BitfieldArguments(size_t start, size_t end)
+{
+    static assert(start < end);
+
+    private template InternalBitfieldArguments(size_t start, size_t end, size_t i, X ...)
+    {
+        static if (i > end)
+            alias TypeTuple!X InternalBitfieldArguments;
+        else
+            alias InternalBitfieldArguments!(start, end, i + 1, TypeTuple!(X, bool, "b" ~ toStringNow!i, 1)) InternalBitfieldArguments;
+    }
+
+    alias InternalBitfieldArguments!(start, end, start) BitfieldArguments;
+}
+
+public struct RegisterBits
+{
+    mixin(bitfields!(BitfieldArguments!(0, 63)));
+    mixin(bitfields!(BitfieldArguments!(64, 127)));
+    mixin(bitfields!(BitfieldArguments!(128, 191)));
+    mixin(bitfields!(BitfieldArguments!(192, 255)));
+}
+
+static assert(RegisterBits.sizeof == 32);
+
 public union RegisterMemory
 {
+    public RegisterBits bits;
     public ubyte[32] u8;
     public byte[32] s8;
     public ushort[16] u16;
@@ -153,16 +182,6 @@ static assert(RegisterMemory.sizeof == 32);
 
 public abstract class Register
 {
-    mixin template Snapshot()
-    {
-        mixin("public override typeof(this) snapshot()" ~
-              "{" ~
-              "    auto reg = new typeof(this)();" ~
-              "    *reg.memory = *memory;" ~
-              "    return reg;" ~
-              "}");
-    }
-
     private string _name;
     private RegisterMemory* _memory;
 
