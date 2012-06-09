@@ -125,6 +125,9 @@ public abstract class Machine
     }
     body
     {
+        scope (exit)
+            _snapshot = null;
+
         Register[Register] changed;
 
         foreach (pre, post; lockstep(_snapshot, _registers.values))
@@ -136,8 +139,6 @@ public abstract class Machine
 
         foreach (pre, post; changed)
             writef("[%s]\t{%s} -> {%s}", pre.name, pre.stringize(), post.stringize());
-
-        _snapshot = null;
     }
 
     protected abstract void initializeRegisters(ubyte bits);
