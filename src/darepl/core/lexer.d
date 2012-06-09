@@ -243,7 +243,7 @@ public class Lexer
             else
             {
                 if (_position == _string.length)
-                    return tokens;
+                    break;
 
                 write("Could not lex input completely.");
                 return null;

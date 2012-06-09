@@ -150,7 +150,7 @@ private template BitfieldArguments(size_t start, size_t end)
             alias InternalBitfieldArguments!(start, end, i + 1, TypeTuple!(X, bool, "b" ~ toStringNow!i, 1)) InternalBitfieldArguments;
     }
 
-    alias InternalBitfieldArguments!(start, end, start) BitfieldArguments;
+    public alias InternalBitfieldArguments!(start, end, start) BitfieldArguments;
 }
 
 public struct RegisterBits
