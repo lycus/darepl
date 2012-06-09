@@ -40,12 +40,10 @@ public union LiteralValue
     public FloatLiteralValue floatValue;
 }
 
-public struct Literal
+public final class Literal
 {
     private LiteralType _type;
     private LiteralValue _value;
-
-    @disable this();
 
     public this(LiteralType type, LiteralValue value)
     {
@@ -547,7 +545,7 @@ public class Lexer
             return null;
         }
 
-        return new LiteralToken(Literal(type, value));
+        return new LiteralToken(new Literal(type, value));
     }
 
     protected Token virtualLexNext(char chr)
