@@ -41,6 +41,49 @@ public final class X86RegisterExpression : X86Expression
     }
 }
 
+public abstract class X86UnaryExpression : X86Expression
+{
+    private X86Expression _expression;
+
+    invariant()
+    {
+        assert(_expression);
+    }
+
+    public this(X86Expression expression)
+    in
+    {
+        assert(expression);
+    }
+    body
+    {
+        _expression = expression;
+    }
+
+    @property public X86Expression expression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return _expression;
+    }
+}
+
+public final class X86NegateExpression : X86UnaryExpression
+{
+    public this(X86Expression expression)
+    in
+    {
+        assert(expression);
+    }
+    body
+    {
+        super(expression);
+    }
+}
+
 public abstract class X86BinaryExpression : X86Expression
 {
     private X86Expression _left;

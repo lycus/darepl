@@ -291,7 +291,7 @@ public class Lexer
                     break;
             }
 
-            if (isDigit(chr) || chr == '+' || chr == '-')
+            if (isDigit(chr))
                 return lexLiteral(chr);
 
             auto tok = virtualLexNext(chr);
@@ -335,15 +335,6 @@ public class Lexer
 
         string literal;
         auto radix = LiteralRadix.decimal;
-        bool isNegative;
-
-        if (chr == '+')
-            chr = moveNext();
-        else if (chr == '-')
-        {
-            chr = moveNext();
-            isNegative = true;
-        }
 
         if (chr == '0')
         {
@@ -487,27 +478,15 @@ public class Lexer
             {
                 case LiteralType.int8:
                     value.intValue.value8u = parse!ubyte(literal, radixNo);
-
-                    if (isNegative)
-                        value.intValue.value8s = -value.intValue.value8u;
                     break;
                 case LiteralType.int16:
                     value.intValue.value16u = parse!ushort(literal, radixNo);
-
-                    if (isNegative)
-                        value.intValue.value16s = -value.intValue.value16u;
                     break;
                 case LiteralType.int32:
                     value.intValue.value32u = parse!uint(literal, radixNo);
-
-                    if (isNegative)
-                        value.intValue.value32s = -value.intValue.value32u;
                     break;
                 case LiteralType.int64:
                     value.intValue.value64u = parse!ulong(literal, radixNo);
-
-                    if (isNegative)
-                        value.intValue.value64s = -value.intValue.value64u;
                     break;
                 case LiteralType.float32:
                     uint raw;
@@ -519,9 +498,6 @@ public class Lexer
                     }
                     else
                         value.floatValue.value32 = parse!float(literal);
-
-                    if (isNegative)
-                        value.floatValue.value32 = -value.floatValue.value32;
                     break;
                 case LiteralType.float64:
                     ulong raw;
@@ -533,9 +509,6 @@ public class Lexer
                     }
                     else
                         value.floatValue.value32 = parse!double(literal);
-
-                    if (isNegative)
-                        value.floatValue.value32 = -value.floatValue.value32;
                     break;
             }
         }

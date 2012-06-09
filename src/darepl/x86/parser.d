@@ -166,6 +166,26 @@ public final class X86Parser : Parser
         assert(false);
     }
 
+    private X86Expression parseUnaryExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        if (auto neg = cast(DelimiterToken)next())
+        {
+            if (neg.type == DelimiterType.minus)
+            {
+                moveNext();
+
+                return new X86NegateExpression(parseUnaryExpression());
+            }
+        }
+
+        return parsePrimaryExpression();
+    }
+
     private X86Expression parseAddExpression()
     out (result)
     {
@@ -193,7 +213,7 @@ public final class X86Parser : Parser
     }
     body
     {
-        auto e = parsePrimaryExpression();
+        auto e = parseUnaryExpression();
 
         if (auto mul = cast(DelimiterToken)next())
         {
@@ -203,6 +223,6 @@ public final class X86Parser : Parser
             moveNext();
         }
 
-        return new X86MultiplyExpression(e, parsePrimaryExpression());
+        return new X86MultiplyExpression(e, parseUnaryExpression());
     }
 }
