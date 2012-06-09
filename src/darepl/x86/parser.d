@@ -112,6 +112,17 @@ public final class X86Parser : Parser
             catch (ConvException)
                 error("Unknown register name: %s", ident.value);
 
+            switch (reg)
+            {
+                case X86RegisterName.eflags:
+                case X86RegisterName.rflags:
+                case X86RegisterName.mxcsr:
+                    error("Cannot operate directly on register: %s", reg);
+                    break;
+                default:
+                    break;
+            }
+
             return X86Operand(cast(X86Register)_machine.registers[reg]);
         }
         else if (auto bracket = cast(DelimiterToken)tok)
