@@ -6,7 +6,6 @@ import darepl.core.common,
        darepl.core.machine,
        darepl.core.parser,
        darepl.core.target,
-       darepl.x86.instructions,
        darepl.x86.machine,
        darepl.x86.parser;
 
