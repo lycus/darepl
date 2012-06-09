@@ -4,30 +4,40 @@ import std.conv,
        darepl.core.lexer,
        darepl.core.parser,
        darepl.x86.enums,
-       darepl.x86.instructions;
+       darepl.x86.instructions,
+       darepl.x86.machine;
 
 public final class X86Parser : Parser
 {
-    public this(Token[] tokens)
+    private X86Machine _machine;
+
+    invariant()
+    {
+        assert(_machine);
+    }
+
+    public this(X86Machine machine, Token[] tokens)
     in
     {
+        assert(machine);
         assert(tokens);
     }
     body
     {
         super(tokens);
+
+        _machine = machine;
     }
 
     public override X86Instruction parse()
     {
-        import darepl.core.console;
-        auto prefix = X86Prefix.none;
+        auto prefix = X86PrefixName.none;
 
         if (auto ident = cast(IdentifierToken)next())
         {
             try
             {
-                prefix = to!X86Prefix(ident.value);
+                prefix = to!X86PrefixName(ident.value);
                 moveNext();
             }
             catch (ConvException)
@@ -35,12 +45,12 @@ public final class X86Parser : Parser
             }
         }
 
-        X86OpCode opCode;
+        X86OpCodeName opCode;
 
         if (auto ident = cast(IdentifierToken)moveNext())
         {
             try
-                opCode = to!X86OpCode(ident.value);
+                opCode = to!X86OpCodeName(ident.value);
             catch (ConvException)
                 error("Unknown opcode mnemonic: %s", ident.value);
         }
@@ -95,10 +105,14 @@ public final class X86Parser : Parser
 
         if (auto ident = cast(IdentifierToken)tok)
         {
+            X86RegisterName reg;
+
             try
-                return X86Operand(to!X86Register(ident.value));
+                reg = to!X86RegisterName(ident.value);
             catch (ConvException)
                 error("Unknown register name: %s", ident.value);
+
+            return X86Operand(cast(X86Register)_machine.registers[reg]);
         }
         else if (auto bracket = cast(DelimiterToken)tok)
         {
@@ -141,10 +155,14 @@ public final class X86Parser : Parser
 
         if (auto ident = cast(IdentifierToken)tok)
         {
+            X86RegisterName reg;
+
             try
-                return new X86RegisterExpression(to!X86Register(ident.value));
+                reg = to!X86RegisterName(ident.value);
             catch (ConvException)
                 error("Unknown register name: %s", ident.value);
+
+            return new X86RegisterExpression(cast(X86Register)_machine.registers[reg]);
         }
         else if (auto literal = cast(LiteralToken)tok)
             return new X86LiteralExpression(literal.value);

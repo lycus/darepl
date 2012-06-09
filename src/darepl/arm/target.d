@@ -3,6 +3,7 @@ module darepl.arm.target;
 import darepl.core.common,
        darepl.core.console,
        darepl.core.lexer,
+       darepl.core.machine,
        darepl.core.parser,
        darepl.core.target;
 
@@ -18,19 +19,17 @@ public final class ARMTarget : Target
         return [32, 64];
     }
 
-    protected override Parser createParser(Token[] tokens)
+    protected override Parser createParser(Machine machine, Token[] tokens)
     {
         assert(false);
     }
 
     public override bool run(ubyte bits)
     {
-        auto lp64 = bits == 64;
-
-        return repl(bits);
+        return repl(null, bits);
     }
 
-    protected override bool handleInstruction(Instruction instruction)
+    protected override bool handleInstruction(Machine machine, Instruction instruction)
     {
         return true;
     }

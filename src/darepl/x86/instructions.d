@@ -2,7 +2,9 @@ module darepl.x86.instructions;
 
 import std.variant,
        darepl.core.lexer,
-       darepl.x86.enums;
+       darepl.core.parser,
+       darepl.x86.enums,
+       darepl.x86.machine;
 
 public abstract class X86Expression
 {
@@ -160,13 +162,13 @@ public alias Algebraic!(X86Expression, X86Register, Literal) X86Operand;
 
 public final class X86Instruction : Instruction
 {
-    private X86Prefix _prefix;
-    private X86OpCode _opCode;
+    private X86PrefixName _prefix;
+    private X86OpCodeName _opCode;
     private X86Operand _operand1;
     private X86Operand _operand2;
     private X86Operand _operand3;
 
-    public this(X86Prefix prefix, X86OpCode opCode, X86Operand operand1, X86Operand operand2, X86Operand operand3)
+    public this(X86PrefixName prefix, X86OpCodeName opCode, X86Operand operand1, X86Operand operand2, X86Operand operand3)
     {
         _prefix = prefix;
         _opCode = opCode;
@@ -175,12 +177,12 @@ public final class X86Instruction : Instruction
         _operand3 = operand3;
     }
 
-    @property public X86Prefix prefix()
+    @property public X86PrefixName prefix()
     {
         return _prefix;
     }
 
-    @property public X86OpCode opCode()
+    @property public X86OpCodeName opCode()
     {
         return _opCode;
     }

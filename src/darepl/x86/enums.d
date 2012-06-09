@@ -1,6 +1,6 @@
 module darepl.x86.enums;
 
-public enum X86Prefix : ubyte
+public enum X86PrefixName : ubyte
 {
     none,
     lock, // Ignored.
@@ -11,12 +11,13 @@ public enum X86Prefix : ubyte
     repz,
 }
 
-public enum X86OpCode : ushort
+public enum X86OpCodeName : ushort
 {
-    todo,
+    add,
+    nop,
 }
 
-public enum X86Register : ubyte
+public enum X86RegisterName : ubyte
 {
     eax,
     ebx,

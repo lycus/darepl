@@ -5,6 +5,7 @@ import std.algorithm,
        darepl.core.common,
        darepl.core.console,
        darepl.core.lexer,
+       darepl.core.machine,
        darepl.core.parser;
 
 public abstract class Target
@@ -20,11 +21,16 @@ public abstract class Target
         return new Lexer(input);
     }
 
-    protected abstract Parser createParser(Token[] tokens);
+    protected abstract Parser createParser(Machine machine, Token[] tokens);
 
-    protected abstract bool handleInstruction(Instruction instruction);
+    protected abstract bool handleInstruction(Machine machine, Instruction instruction);
 
-    protected final bool repl(ubyte bits)
+    protected final bool repl(Machine machine, ubyte bits)
+    in
+    {
+        assert(machine);
+    }
+    body
     {
         writef("Running REPL for architecture %s (%s)...", architecture, bits);
         write();
@@ -69,7 +75,7 @@ public abstract class Target
                     if (!tokens)
                         continue;
 
-                    auto parser = createParser(tokens);
+                    auto parser = createParser(machine, tokens);
                     Instruction insn;
 
                     try
@@ -80,7 +86,7 @@ public abstract class Target
                     if (!insn)
                         continue;
 
-                    if (!handleInstruction(insn))
+                    if (!handleInstruction(machine, insn))
                         return false;
                 }
             }

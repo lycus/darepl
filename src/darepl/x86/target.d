@@ -3,8 +3,11 @@ module darepl.x86.target;
 import darepl.core.common,
        darepl.core.console,
        darepl.core.lexer,
+       darepl.core.machine,
+       darepl.core.parser,
        darepl.core.target,
        darepl.x86.instructions,
+       darepl.x86.machine,
        darepl.x86.parser;
 
 public final class X86Target : Target
@@ -19,21 +22,19 @@ public final class X86Target : Target
         return [32, 64];
     }
 
-    protected override X86Parser createParser(Token[] tokens)
+    protected override X86Parser createParser(Machine machine, Token[] tokens)
     {
-        return new X86Parser(tokens);
+        return new X86Parser(cast(X86Machine)machine, tokens);
     }
 
     public override bool run(ubyte bits)
     {
-        auto lp64 = bits == 64;
-
-        return repl(bits);
+        return repl(new X86Machine(this, bits), bits);
     }
 
-    protected override bool handleInstruction(Instruction instruction)
+    protected override bool handleInstruction(Machine machine, Instruction instruction)
     {
-        auto insn = cast(X86Instruction)instruction;
+        machine.dispatch(instruction);
 
         return true;
     }
