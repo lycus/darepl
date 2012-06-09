@@ -15,6 +15,7 @@ public final class X86Machine : Machine
 {
     private X86RegisterFlags32 _eflags;
     private X86RegisterFlags64 _rflags;
+    private X86RegisterFloatFlags32 _mxcsr;
 
     public this(X86Target target, ubyte bits)
     in
@@ -45,6 +46,16 @@ public final class X86Machine : Machine
     body
     {
         return _rflags;
+    }
+
+    @property public X86RegisterFloatFlags32 mxcsr()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return _mxcsr;
     }
 
     protected override string createDispatchString(Instruction instruction)
@@ -110,6 +121,8 @@ public final class X86Machine : Machine
             auto r14 = registers[X86RegisterName.r14] = new X86Register64(X86RegisterName.r14);
             auto r15 = registers[X86RegisterName.r15] = new X86Register64(X86RegisterName.r15);
         }
+
+        registers[X86RegisterName.mxcsr] = _mxcsr = new X86RegisterFloatFlags32();
     }
 }
 
@@ -358,5 +371,62 @@ public final class X86RegisterFlags64 : X86Register
     @property public override bool lp64()
     {
         return true;
+    }
+}
+
+public final class X86RegisterFloatFlags32 : X86Register
+{
+    public this()
+    {
+        super(X86RegisterName.mxcsr);
+    }
+
+    public this(RegisterMemory* memory)
+    in
+    {
+        assert(memory);
+    }
+    body
+    {
+        super(X86RegisterName.mxcsr, memory);
+    }
+
+    public this(RegisterMemory memory)
+    {
+        super(X86RegisterName.mxcsr, memory);
+    }
+
+    public override X86RegisterFloatFlags32 snapshot()
+    {
+        return new X86RegisterFloatFlags32(*memory);
+    }
+
+    public override string stringize()
+    {
+        auto u32 = memory.u32[0];
+
+        return format("0b%s (IE: %s DE: %s ZE: %s OE: %s UE: %s PE: %s DAZ: %s IM: %s DM: %s ZM: %s OM: %s UM: %s PM: %s RC1: %s RC2: %s FZ: %s)",
+                      toImpl!string(u32, 2),
+                      memory.bits.b0,
+                      memory.bits.b1,
+                      memory.bits.b2,
+                      memory.bits.b3,
+                      memory.bits.b4,
+                      memory.bits.b5,
+                      memory.bits.b6,
+                      memory.bits.b7,
+                      memory.bits.b8,
+                      memory.bits.b9,
+                      memory.bits.b10,
+                      memory.bits.b11,
+                      memory.bits.b12,
+                      memory.bits.b13,
+                      memory.bits.b14,
+                      memory.bits.b15);
+    }
+
+    @property public override bool lp64()
+    {
+        return false;
     }
 }
