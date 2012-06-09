@@ -158,7 +158,7 @@ public final class X86MultiplyExpression : X86BinaryExpression
 
 public alias Algebraic!(X86Expression, X86Register, Literal) X86Operand;
 
-public final class X86Instruction
+public final class X86Instruction : Instruction
 {
     private X86Prefix _prefix;
     private X86OpCode _opCode;
@@ -200,8 +200,19 @@ public final class X86Instruction
         return _operand3;
     }
 
-    @property public X86Operand[] operands()
+    @property public override Object[] operands()
     {
-        return [_operand1, _operand2, _operand3];
+        Object[] operands;
+
+        if (_operand1.hasValue)
+            operands ~= _operand1.get!Object();
+
+        if (_operand2.hasValue)
+            operands ~= _operand2.get!Object();
+
+        if (_operand3.hasValue)
+            operands ~= _operand3.get!Object();
+
+        return operands;
     }
 }

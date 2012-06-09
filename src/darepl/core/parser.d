@@ -33,6 +33,7 @@ public class ParserException : Exception
 
 public abstract class Instruction
 {
+    @property public abstract Object[] operands();
 }
 
 public abstract class Parser
