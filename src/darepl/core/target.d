@@ -63,6 +63,16 @@ public abstract class Target
                         case "bits":
                             writef("Emulating bitness: %s", bits);
                             break;
+                        case "reset":
+                            machine.beginMutation();
+
+                            foreach (reg; machine.registers)
+                                reg.memory.u8[] = 0;
+
+                            machine.finishMutation();
+
+                            write("Machine state has been reset.");
+                            break;
                         default:
                             writef("Unknown REPL command: %s", command);
                     }
