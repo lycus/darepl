@@ -69,7 +69,6 @@ body
     if (args.length < 3)
     {
         usage(cli);
-
         return 2;
     }
 
