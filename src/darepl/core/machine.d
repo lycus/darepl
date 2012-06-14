@@ -7,8 +7,8 @@ import core.sys.posix.dlfcn,
        std.conv,
        std.metastrings,
        std.range,
+       std.string,
        std.typetuple,
-       std.utf,
        ffi,
        darepl.core.console,
        darepl.core.parser,
@@ -92,7 +92,7 @@ public abstract class Machine
         dlerror();
 
         auto str = to!string(_target.architecture) ~ '_' ~ createDispatchString(instruction);
-        auto fcn = dlsym(proc, toUTFz!(const(char)*)(str));
+        auto fcn = dlsym(proc, toStringz(str));
 
         if (auto error = dlerror())
         {

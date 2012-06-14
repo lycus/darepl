@@ -47,6 +47,7 @@ def configure(conf):
             conf.fatal('--mode must be either debug or release.')
 
         conf.env.append_value('LINKFLAGS', '-lpthread')
+        conf.env.append_value('LINKFLAGS', '-rdynamic')
     elif conf.env.COMPILER_D == 'ldc2':
         add_option('-w')
         add_option('-wi')
