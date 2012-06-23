@@ -15,8 +15,9 @@ def options(opt):
 def configure(conf):
     conf.recurse('libffi-d')
 
-    def add_option(option):
-        conf.env.append_value('DFLAGS', option)
+    def add_option(option, flags = 'DFLAGS'):
+        if option not in conf.env[flags]:
+            conf.env.append_value(flags, option)
 
     if conf.env.COMPILER_D == 'dmd':
         add_option('-w')
@@ -46,8 +47,8 @@ def configure(conf):
         else:
             conf.fatal('--mode must be either debug or release.')
 
-        conf.env.append_value('LINKFLAGS', '-lpthread')
-        conf.env.append_value('LINKFLAGS', '-rdynamic')
+        add_option('-lpthread', 'LINKFLAGS')
+        add_option('-rdynamic', 'LINKFLAGS')
     elif conf.env.COMPILER_D == 'ldc2':
         add_option('-w')
         add_option('-wi')
