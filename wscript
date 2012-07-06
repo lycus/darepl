@@ -23,6 +23,7 @@ def configure(conf):
         add_option('-w')
         add_option('-ignore')
         add_option('-property')
+        add_option('-g')
 
         if conf.options.mode == 'debug':
             add_option('-debug')
@@ -38,6 +39,7 @@ def configure(conf):
         add_option('-fignore-unknown-pragmas')
         add_option('-fproperty')
         add_option('-g')
+        add_option('-ggdb')
 
         if conf.options.mode == 'debug':
             add_option('-fdebug')
@@ -55,6 +57,7 @@ def configure(conf):
         add_option('-ignore')
         add_option('-property')
         add_option('-check-printf-calls')
+        add_option('-g')
 
         if conf.options.mode == 'debug':
             add_option('-d-debug')
