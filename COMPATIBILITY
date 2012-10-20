@@ -23,3 +23,5 @@ that the REPL actually supports emulation for is:
     * MIPS (32-bit and 64-bit)
 
 Only POSIX operating systems are supported.
+
+Python 2.7+ is needed to run the project's build scripts.
