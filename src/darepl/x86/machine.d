@@ -2,6 +2,7 @@ module darepl.x86.machine;
 
 import std.conv,
        std.string,
+       darepl.core.expressions,
        darepl.core.lexer,
        darepl.core.machine,
        darepl.core.parser,
@@ -64,7 +65,7 @@ public final class X86Machine : Machine
 
         static string operandToString(Object operand)
         {
-            if (auto expr = cast(X86Expression)operand)
+            if (auto expr = cast(Expression)operand)
                 return "mem";
             else if (auto reg = cast(X86Register)operand)
                 return reg.lp64 ? "reg64" : "reg32";

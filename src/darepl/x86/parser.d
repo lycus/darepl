@@ -1,9 +1,11 @@
 module darepl.x86.parser;
 
 import std.conv,
+       darepl.core.expressions,
        darepl.core.lexer,
        darepl.core.parser,
        darepl.x86.enums,
+       darepl.x86.expressions,
        darepl.x86.instructions,
        darepl.x86.machine;
 
@@ -147,26 +149,9 @@ public final class X86Parser : Parser
         assert(false);
     }
 
-    private X86Expression parseExpression()
-    out (result)
+    protected override Expression parseSpecificExpression(Token token)
     {
-        assert(result);
-    }
-    body
-    {
-        return parseOrExpression();
-    }
-
-    private X86Expression parsePrimaryExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        auto tok = moveNext();
-
-        if (auto ident = cast(IdentifierToken)tok)
+        if (auto ident = cast(IdentifierToken)token)
         {
             X86RegisterName reg;
 
@@ -190,201 +175,7 @@ public final class X86Parser : Parser
 
             return new X86RegisterExpression(cast(X86Register)_machine.registers[reg]);
         }
-        else if (auto literal = cast(LiteralToken)tok)
-            return new X86LiteralExpression(literal.value);
-        else if (auto paren = cast(DelimiterToken)tok)
-        {
-            if (paren.type == DelimiterType.openParen)
-            {
-                auto expr = parseExpression();
-                auto closing = cast(DelimiterToken)moveNext();
 
-                if (!closing || closing.type != DelimiterType.closeParen)
-                    error("Expected closing parenthesis.");
-
-                return expr;
-            }
-        }
-
-        error("Invalid expression operand.");
-        assert(false);
-    }
-
-    private X86Expression parseUnaryExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        if (auto tok = cast(DelimiterToken)next())
-        {
-            switch (tok.type)
-            {
-                case DelimiterType.minus:
-                    moveNext();
-                    return new X86NegateExpression(parseUnaryExpression());
-                case DelimiterType.plus:
-                    moveNext();
-                    return new X86PlusExpression(parseUnaryExpression());
-                case DelimiterType.exclamation:
-                    moveNext();
-                    return new X86NotExpression(parseUnaryExpression());
-                case DelimiterType.tilde:
-                    moveNext();
-                    return new X86ComplementExpression(parseUnaryExpression());
-                default:
-                    break;
-            }
-        }
-
-        return parsePrimaryExpression();
-    }
-
-    private X86Expression parseOrExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        auto e = parseExclusiveOrExpression();
-
-        if (auto tok = cast(DelimiterToken)next())
-        {
-            if (tok.type == DelimiterType.pipe)
-            {
-                moveNext();
-                return new X86OrExpression(e, parseExclusiveOrExpression());
-            }
-        }
-
-        return e;
-    }
-
-    private X86Expression parseExclusiveOrExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        auto e = parseAndExpression();
-
-        if (auto tok = cast(DelimiterToken)next())
-        {
-            if (tok.type == DelimiterType.caret)
-            {
-                moveNext();
-                return new X86ExclusiveOrExpression(e, parseAndExpression());
-            }
-        }
-
-        return e;
-    }
-
-    private X86Expression parseAndExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        auto e = parseShiftExpression();
-
-        if (auto tok = cast(DelimiterToken)next())
-        {
-            if (tok.type == DelimiterType.ampersand)
-            {
-                moveNext();
-                return new X86AndExpression(e, parseShiftExpression());
-            }
-        }
-
-        return e;
-    }
-
-    private X86Expression parseShiftExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        auto e = parseAddExpression();
-
-        if (auto tok = cast(DelimiterToken)next())
-        {
-            switch (tok.type)
-            {
-                case DelimiterType.leftArrow:
-                    moveNext();
-                    return new X86LeftShiftExpression(e, parseAddExpression());
-                case DelimiterType.rightArrow:
-                    moveNext();
-                    return new X86RightShiftExpression(e, parseAddExpression());
-                default:
-                    break;
-            }
-        }
-
-        return e;
-    }
-
-    private X86Expression parseAddExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        auto e = parseMultiplyExpression();
-
-        if (auto tok = cast(DelimiterToken)next())
-        {
-            switch (tok.type)
-            {
-                case DelimiterType.plus:
-                    moveNext();
-                    return new X86AddExpression(e, parseMultiplyExpression());
-                case DelimiterType.minus:
-                    moveNext();
-                    return new X86SubtractExpression(e, parseMultiplyExpression());
-                default:
-                    break;
-            }
-        }
-
-        return e;
-    }
-
-    private X86Expression parseMultiplyExpression()
-    out (result)
-    {
-        assert(result);
-    }
-    body
-    {
-        auto e = parseUnaryExpression();
-
-        if (auto tok = cast(DelimiterToken)next())
-        {
-            switch (tok.type)
-            {
-                case DelimiterType.star:
-                    moveNext();
-                    return new X86MultiplyExpression(e, parseUnaryExpression());
-                case DelimiterType.slash:
-                    moveNext();
-                    return new X86DivideExpression(e, parseUnaryExpression());
-                case DelimiterType.percent:
-                    moveNext();
-                    return new X86ModuloExpression(e, parseUnaryExpression());
-                default:
-                    break;
-            }
-        }
-
-        return e;
+        return null;
     }
 }
