@@ -147,6 +147,24 @@ public final class EpiphanyMachine : Machine
         registers[EpiphanyRegisterName.ilatst] = new EpiphanyRegister32(EpiphanyRegisterName.ilatst, ilat.memory);
         registers[EpiphanyRegisterName.ilatcl] = new EpiphanyRegister32(EpiphanyRegisterName.ilatcl, ilat.memory);
         registers[EpiphanyRegisterName.ipend] = new EpiphanyRegister32(EpiphanyRegisterName.ipend);
+
+        registers[EpiphanyRegisterName.dma0config] = new EpiphanyDMAConfigRegister32(EpiphanyRegisterName.dma0config);
+        registers[EpiphanyRegisterName.dma0count] = new EpiphanyRegister32(EpiphanyRegisterName.dma0count);
+        registers[EpiphanyRegisterName.dma0stride] = new EpiphanyRegister32(EpiphanyRegisterName.dma0stride);
+        registers[EpiphanyRegisterName.dma0srcaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma0srcaddr);
+        registers[EpiphanyRegisterName.dma0dstaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma0dstaddr);
+        registers[EpiphanyRegisterName.dma0auto0] = new EpiphanyRegister32(EpiphanyRegisterName.dma0auto0);
+        registers[EpiphanyRegisterName.dma0auto1] = new EpiphanyRegister32(EpiphanyRegisterName.dma0auto1);
+        registers[EpiphanyRegisterName.dma0status] = new EpiphanyDMAStatusRegister32(EpiphanyRegisterName.dma0status);
+
+        registers[EpiphanyRegisterName.dma1config] = new EpiphanyDMAConfigRegister32(EpiphanyRegisterName.dma1config);
+        registers[EpiphanyRegisterName.dma1count] = new EpiphanyRegister32(EpiphanyRegisterName.dma1count);
+        registers[EpiphanyRegisterName.dma1stride] = new EpiphanyRegister32(EpiphanyRegisterName.dma1stride);
+        registers[EpiphanyRegisterName.dma1srcaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma1srcaddr);
+        registers[EpiphanyRegisterName.dma1dstaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma1dstaddr);
+        registers[EpiphanyRegisterName.dma1auto0] = new EpiphanyRegister32(EpiphanyRegisterName.dma1auto0);
+        registers[EpiphanyRegisterName.dma1auto1] = new EpiphanyRegister32(EpiphanyRegisterName.dma1auto1);
+        registers[EpiphanyRegisterName.dma1status] = new EpiphanyDMAStatusRegister32(EpiphanyRegisterName.dma1status);
     }
 }
 
@@ -372,5 +390,142 @@ public final class EpiphanyStatusRegister32 : EpiphanyRegister
                       memory.bits.b16,
                       memory.bits.b17,
                       memory.bits.b18);
+    }
+}
+
+public final class EpiphanyDMAConfigRegister32 : EpiphanyRegister
+{
+    public this(EpiphanyRegisterName name) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
+    }
+    body
+    {
+        super(name);
+    }
+
+    public this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
+        assert(memory);
+    }
+    body
+    {
+        super(name, memory);
+    }
+
+    public this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
+    }
+    body
+    {
+        super(name, memory);
+    }
+
+    public override EpiphanyDMAConfigRegister32 snapshot() nothrow
+    {
+        return new EpiphanyDMAConfigRegister32(register, *memory);
+    }
+
+    public override string stringize()
+    {
+        auto u32 = memory.u32[0];
+
+        return format("0b%s (DMAEN: %s MASTER: %s CHAINMODE: %s STARTUP: %s IRQEN: %s DATASIZE: %s%s NEXT_PTR: %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s)",
+                      toImpl!string(u32, 2),
+                      memory.bits.b0,
+                      memory.bits.b1,
+                      memory.bits.b2,
+                      memory.bits.b3,
+                      memory.bits.b4,
+                      memory.bits.b5,
+                      memory.bits.b6,
+                      memory.bits.b16,
+                      memory.bits.b17,
+                      memory.bits.b18,
+                      memory.bits.b19,
+                      memory.bits.b20,
+                      memory.bits.b21,
+                      memory.bits.b22,
+                      memory.bits.b23,
+                      memory.bits.b24,
+                      memory.bits.b25,
+                      memory.bits.b26,
+                      memory.bits.b27,
+                      memory.bits.b28,
+                      memory.bits.b29,
+                      memory.bits.b30,
+                      memory.bits.b31);
+    }
+}
+
+public final class EpiphanyDMAStatusRegister32 : EpiphanyRegister
+{
+    public this(EpiphanyRegisterName name) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
+    }
+    body
+    {
+        super(name);
+    }
+
+    public this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
+        assert(memory);
+    }
+    body
+    {
+        super(name, memory);
+    }
+
+    public this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
+    }
+    body
+    {
+        super(name, memory);
+    }
+
+    public override EpiphanyDMAStatusRegister32 snapshot() nothrow
+    {
+        return new EpiphanyDMAStatusRegister32(register, *memory);
+    }
+
+    public override string stringize()
+    {
+        auto u32 = memory.u32[0];
+
+        return format("0b%s (DMASTATE: %s%s%s%s CURR_PTR: %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s)",
+                      toImpl!string(u32, 2),
+                      memory.bits.b0,
+                      memory.bits.b1,
+                      memory.bits.b2,
+                      memory.bits.b3,
+                      memory.bits.b16,
+                      memory.bits.b17,
+                      memory.bits.b18,
+                      memory.bits.b19,
+                      memory.bits.b20,
+                      memory.bits.b21,
+                      memory.bits.b22,
+                      memory.bits.b23,
+                      memory.bits.b24,
+                      memory.bits.b25,
+                      memory.bits.b26,
+                      memory.bits.b27,
+                      memory.bits.b28,
+                      memory.bits.b29,
+                      memory.bits.b30,
+                      memory.bits.b31);
     }
 }

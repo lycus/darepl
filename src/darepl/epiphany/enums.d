@@ -153,4 +153,22 @@ public enum EpiphanyRegisterName : ushort
     ilatst,
     ilatcl,
     ipend,
+
+    dma0config,
+    dma0count,
+    dma0stride,
+    dma0srcaddr,
+    dma0dstaddr,
+    dma0auto0,
+    dma0auto1,
+    dma0status,
+
+    dma1config,
+    dma1count,
+    dma1stride,
+    dma1srcaddr,
+    dma1dstaddr,
+    dma1auto0,
+    dma1auto1,
+    dma1status,
 }
