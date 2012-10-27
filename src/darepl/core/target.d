@@ -39,6 +39,12 @@ public abstract class Target
         {
             auto line = read(architecture, bits);
 
+            if (!line)
+            {
+                writef("Exiting...");
+                return true;
+            }
+
             foreach (stmt; splitter(line, ';'))
             {
                 auto trimmed = strip(stmt);

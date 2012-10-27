@@ -19,11 +19,6 @@ body
 }
 
 public string read(Architecture arch, ubyte bits)
-out (result)
-{
-    assert(result);
-}
-body
 {
     std.stdio.writef("%s-%s> ", arch, bits);
 
