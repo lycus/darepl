@@ -108,17 +108,19 @@ def build(bld):
                     dflags = dflags)
 
     stlib('core', 'darepl.core', install = None)
-    stlib('x86', 'darepl.x86', install = None)
     stlib('arm', 'darepl.arm', install = None)
-    stlib('ppc', 'darepl.ppc', install = None)
+    stlib('epiphany', 'darepl.epiphany', install = None)
     stlib('ia64', 'darepl.ia64', install = None)
     stlib('mips', 'darepl.mips', install = None)
+    stlib('ppc', 'darepl.ppc', install = None)
+    stlib('x86', 'darepl.x86', install = None)
 
-    deps = ['darepl.mips',
-            'darepl.ia64',
+    deps = ['darepl.x86',
             'darepl.ppc',
+            'darepl.mips',
+            'darepl.ia64',
+            'darepl.epiphany',
             'darepl.arm',
-            'darepl.x86',
             'darepl.core',
             'ffi-d',
             'FFI']

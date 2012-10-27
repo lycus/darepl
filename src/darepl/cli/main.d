@@ -9,6 +9,7 @@ import core.memory,
        darepl.core.console,
        darepl.arm.target,
        darepl.core.target,
+       darepl.epiphany.target,
        darepl.ia64.target,
        darepl.mips.target,
        darepl.ppc.target,
@@ -90,20 +91,23 @@ body
 
     final switch (arch)
     {
-        case Architecture.x86:
-            target = new X86Target();
-            break;
         case Architecture.arm:
             target = new ARMTarget();
             break;
-        case Architecture.ppc:
-            target = new PPCTarget();
+        case Architecture.epiphany:
+            target = new EpiphanyTarget();
             break;
         case Architecture.ia64:
             target = new IA64Target();
             break;
         case Architecture.mips:
             target = new MIPSTarget();
+            break;
+        case Architecture.ppc:
+            target = new PPCTarget();
+            break;
+        case Architecture.x86:
+            target = new X86Target();
             break;
     }
 
