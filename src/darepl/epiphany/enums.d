@@ -146,4 +146,11 @@ public enum EpiphanyRegisterName : ushort
 
     ctimer0,
     ctimer1,
+
+    iret,
+    imask,
+    ilat,
+    ilatst,
+    ilatcl,
+    ipend,
 }

@@ -140,6 +140,13 @@ public final class EpiphanyMachine : Machine
 
         registers[EpiphanyRegisterName.ctimer0] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer0);
         registers[EpiphanyRegisterName.ctimer1] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer1);
+
+        registers[EpiphanyRegisterName.iret] = new EpiphanyRegister32(EpiphanyRegisterName.iret);
+        registers[EpiphanyRegisterName.imask] = new EpiphanyRegister32(EpiphanyRegisterName.imask);
+        auto ilat = registers[EpiphanyRegisterName.ilat] = new EpiphanyRegister32(EpiphanyRegisterName.ilat);
+        registers[EpiphanyRegisterName.ilatst] = new EpiphanyRegister32(EpiphanyRegisterName.ilatst, ilat.memory);
+        registers[EpiphanyRegisterName.ilatcl] = new EpiphanyRegister32(EpiphanyRegisterName.ilatcl, ilat.memory);
+        registers[EpiphanyRegisterName.ipend] = new EpiphanyRegister32(EpiphanyRegisterName.ipend);
     }
 }
 
