@@ -121,11 +121,12 @@ public final class EpiphanyRegister32 : EpiphanyRegister
         auto u32 = memory.u32[0];
         auto s32 = memory.s32[0];
 
-        return format("0b%s / 0o%s / %s (%s) / 0x%s",
+        return format("0b%s / 0o%s / %s (%s) / 0x%s / %s",
                       toImpl!string(u32, 2),
                       toImpl!string(u32, 8),
                       u32,
                       s32,
-                      toImpl!string(u32, 16));
+                      toImpl!string(u32, 16),
+                      memory.f32[0]);
     }
 }
