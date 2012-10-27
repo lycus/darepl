@@ -120,4 +120,30 @@ public enum EpiphanyRegisterName : ushort
     r61,
     r62,
     r63,
+
+    a1,
+    a2,
+    a3,
+    a4,
+
+    v1,
+    v2,
+    v3,
+    v4,
+    v5,
+    v6,
+    v7,
+    v8,
+
+    sb,
+    sl,
+    fp,
+    sp,
+    lr,
+
+    config,
+    status,
+
+    ctimer0,
+    ctimer1,
 }

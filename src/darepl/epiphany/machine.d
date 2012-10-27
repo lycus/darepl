@@ -50,21 +50,21 @@ public final class EpiphanyMachine : Machine
 
     protected override void initializeRegisters(ubyte bits) pure nothrow
     {
-        registers[EpiphanyRegisterName.r0] = new EpiphanyRegister32(EpiphanyRegisterName.r0);
-        registers[EpiphanyRegisterName.r1] = new EpiphanyRegister32(EpiphanyRegisterName.r1);
-        registers[EpiphanyRegisterName.r2] = new EpiphanyRegister32(EpiphanyRegisterName.r2);
-        registers[EpiphanyRegisterName.r3] = new EpiphanyRegister32(EpiphanyRegisterName.r3);
-        registers[EpiphanyRegisterName.r4] = new EpiphanyRegister32(EpiphanyRegisterName.r4);
-        registers[EpiphanyRegisterName.r5] = new EpiphanyRegister32(EpiphanyRegisterName.r5);
-        registers[EpiphanyRegisterName.r6] = new EpiphanyRegister32(EpiphanyRegisterName.r6);
-        registers[EpiphanyRegisterName.r7] = new EpiphanyRegister32(EpiphanyRegisterName.r7);
-        registers[EpiphanyRegisterName.r8] = new EpiphanyRegister32(EpiphanyRegisterName.r8);
-        registers[EpiphanyRegisterName.r9] = new EpiphanyRegister32(EpiphanyRegisterName.r9);
-        registers[EpiphanyRegisterName.r10] = new EpiphanyRegister32(EpiphanyRegisterName.r10);
-        registers[EpiphanyRegisterName.r11] = new EpiphanyRegister32(EpiphanyRegisterName.r11);
+        auto r0 = registers[EpiphanyRegisterName.r0] = new EpiphanyRegister32(EpiphanyRegisterName.r0);
+        auto r1 = registers[EpiphanyRegisterName.r1] = new EpiphanyRegister32(EpiphanyRegisterName.r1);
+        auto r2 = registers[EpiphanyRegisterName.r2] = new EpiphanyRegister32(EpiphanyRegisterName.r2);
+        auto r3 = registers[EpiphanyRegisterName.r3] = new EpiphanyRegister32(EpiphanyRegisterName.r3);
+        auto r4 = registers[EpiphanyRegisterName.r4] = new EpiphanyRegister32(EpiphanyRegisterName.r4);
+        auto r5 = registers[EpiphanyRegisterName.r5] = new EpiphanyRegister32(EpiphanyRegisterName.r5);
+        auto r6 = registers[EpiphanyRegisterName.r6] = new EpiphanyRegister32(EpiphanyRegisterName.r6);
+        auto r7 = registers[EpiphanyRegisterName.r7] = new EpiphanyRegister32(EpiphanyRegisterName.r7);
+        auto r8 = registers[EpiphanyRegisterName.r8] = new EpiphanyRegister32(EpiphanyRegisterName.r8);
+        auto r9 = registers[EpiphanyRegisterName.r9] = new EpiphanyRegister32(EpiphanyRegisterName.r9);
+        auto r10 = registers[EpiphanyRegisterName.r10] = new EpiphanyRegister32(EpiphanyRegisterName.r10);
+        auto r11 = registers[EpiphanyRegisterName.r11] = new EpiphanyRegister32(EpiphanyRegisterName.r11);
         registers[EpiphanyRegisterName.r12] = new EpiphanyRegister32(EpiphanyRegisterName.r12);
-        registers[EpiphanyRegisterName.r13] = new EpiphanyRegister32(EpiphanyRegisterName.r13);
-        registers[EpiphanyRegisterName.r14] = new EpiphanyRegister32(EpiphanyRegisterName.r14);
+        auto r13 = registers[EpiphanyRegisterName.r13] = new EpiphanyRegister32(EpiphanyRegisterName.r13);
+        auto r14 = registers[EpiphanyRegisterName.r14] = new EpiphanyRegister32(EpiphanyRegisterName.r14);
         registers[EpiphanyRegisterName.r15] = new EpiphanyRegister32(EpiphanyRegisterName.r15);
         registers[EpiphanyRegisterName.r16] = new EpiphanyRegister32(EpiphanyRegisterName.r16);
         registers[EpiphanyRegisterName.r17] = new EpiphanyRegister32(EpiphanyRegisterName.r17);
@@ -114,6 +114,32 @@ public final class EpiphanyMachine : Machine
         registers[EpiphanyRegisterName.r61] = new EpiphanyRegister32(EpiphanyRegisterName.r61);
         registers[EpiphanyRegisterName.r62] = new EpiphanyRegister32(EpiphanyRegisterName.r62);
         registers[EpiphanyRegisterName.r63] = new EpiphanyRegister32(EpiphanyRegisterName.r63);
+
+        registers[EpiphanyRegisterName.a1] = new EpiphanyRegister32(EpiphanyRegisterName.a1, r0.memory);
+        registers[EpiphanyRegisterName.a2] = new EpiphanyRegister32(EpiphanyRegisterName.a2, r1.memory);
+        registers[EpiphanyRegisterName.a3] = new EpiphanyRegister32(EpiphanyRegisterName.a3, r2.memory);
+        registers[EpiphanyRegisterName.a4] = new EpiphanyRegister32(EpiphanyRegisterName.a4, r3.memory);
+
+        registers[EpiphanyRegisterName.v1] = new EpiphanyRegister32(EpiphanyRegisterName.v1, r4.memory);
+        registers[EpiphanyRegisterName.v2] = new EpiphanyRegister32(EpiphanyRegisterName.v2, r5.memory);
+        registers[EpiphanyRegisterName.v3] = new EpiphanyRegister32(EpiphanyRegisterName.v3, r6.memory);
+        registers[EpiphanyRegisterName.v4] = new EpiphanyRegister32(EpiphanyRegisterName.v4, r7.memory);
+        registers[EpiphanyRegisterName.v5] = new EpiphanyRegister32(EpiphanyRegisterName.v5, r8.memory);
+        registers[EpiphanyRegisterName.v6] = new EpiphanyRegister32(EpiphanyRegisterName.v6, r9.memory);
+        registers[EpiphanyRegisterName.v7] = new EpiphanyRegister32(EpiphanyRegisterName.v7, r10.memory);
+        registers[EpiphanyRegisterName.v8] = new EpiphanyRegister32(EpiphanyRegisterName.v8, r11.memory);
+
+        registers[EpiphanyRegisterName.sb] = new EpiphanyRegister32(EpiphanyRegisterName.sb, r9.memory);
+        registers[EpiphanyRegisterName.sl] = new EpiphanyRegister32(EpiphanyRegisterName.sl, r10.memory);
+        registers[EpiphanyRegisterName.fp] = new EpiphanyRegister32(EpiphanyRegisterName.fp, r11.memory);
+        registers[EpiphanyRegisterName.sp] = new EpiphanyRegister32(EpiphanyRegisterName.sp, r13.memory);
+        registers[EpiphanyRegisterName.lr] = new EpiphanyRegister32(EpiphanyRegisterName.lr, r14.memory);
+
+        registers[EpiphanyRegisterName.config] = new EpiphanyConfigRegister32();
+        registers[EpiphanyRegisterName.status] = new EpiphanyStatusRegister32();
+
+        registers[EpiphanyRegisterName.ctimer0] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer0);
+        registers[EpiphanyRegisterName.ctimer1] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer1);
     }
 }
 
@@ -192,5 +218,152 @@ public final class EpiphanyRegister32 : EpiphanyRegister
                       s32,
                       toImpl!string(u32, 16),
                       memory.f32[0]);
+    }
+}
+
+public final class EpiphanyTimerRegister32 : EpiphanyRegister
+{
+    public this(EpiphanyRegisterName name) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
+    }
+    body
+    {
+        super(name);
+    }
+
+    public this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
+        assert(memory);
+    }
+    body
+    {
+        super(name, memory);
+    }
+
+    public this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    in
+    {
+        assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
+    }
+    body
+    {
+        super(name, memory);
+    }
+
+    public override EpiphanyTimerRegister32 snapshot() nothrow
+    {
+        return new EpiphanyTimerRegister32(register, *memory);
+    }
+
+    public override string stringize()
+    {
+        return format("%s", memory.u32[0]);
+    }
+}
+
+public final class EpiphanyConfigRegister32 : EpiphanyRegister
+{
+    public this() nothrow
+    {
+        super(EpiphanyRegisterName.config);
+    }
+
+    public this(RegisterMemory* memory) nothrow
+    in
+    {
+        assert(memory);
+    }
+    body
+    {
+        super(EpiphanyRegisterName.config, memory);
+    }
+
+    public this(RegisterMemory memory) nothrow
+    {
+        super(EpiphanyRegisterName.config, memory);
+    }
+
+    public override EpiphanyConfigRegister32 snapshot() nothrow
+    {
+        return new EpiphanyConfigRegister32(*memory);
+    }
+
+    public override string stringize()
+    {
+        auto u32 = memory.u32[0];
+
+        return format("0b%s (RMODE: %s IEN: %s OEN: %s UEN: %s CTIMER0CFG: %s%s%s%s CTIMER1CFG: %s%s%s%s ARITHMODE: %s%s%s)",
+                      toImpl!string(u32, 2),
+                      memory.bits.b0,
+                      memory.bits.b1,
+                      memory.bits.b2,
+                      memory.bits.b3,
+                      memory.bits.b4,
+                      memory.bits.b5,
+                      memory.bits.b6,
+                      memory.bits.b7,
+                      memory.bits.b8,
+                      memory.bits.b9,
+                      memory.bits.b10,
+                      memory.bits.b11,
+                      memory.bits.b17,
+                      memory.bits.b18,
+                      memory.bits.b19);
+    }
+}
+
+public final class EpiphanyStatusRegister32 : EpiphanyRegister
+{
+    public this() nothrow
+    {
+        super(EpiphanyRegisterName.status);
+    }
+
+    public this(RegisterMemory* memory) nothrow
+    in
+    {
+        assert(memory);
+    }
+    body
+    {
+        super(EpiphanyRegisterName.status, memory);
+    }
+
+    public this(RegisterMemory memory) nothrow
+    {
+        super(EpiphanyRegisterName.status, memory);
+    }
+
+    public override EpiphanyStatusRegister32 snapshot() nothrow
+    {
+        return new EpiphanyStatusRegister32(*memory);
+    }
+
+    public override string stringize()
+    {
+        auto u32 = memory.u32[0];
+
+        return format("0b%s (ACTIVE: %s GID: %s: AZ: %s AN: %s AC: %s AV: %s BZ: %s BN: %s BV: %s AVS: %s BIS: %s BVS: %s BUS: %s EXCAUSE: %s%s%s)",
+                      toImpl!string(u32, 2),
+                      memory.bits.b0,
+                      memory.bits.b1,
+                      memory.bits.b4,
+                      memory.bits.b5,
+                      memory.bits.b6,
+                      memory.bits.b7,
+                      memory.bits.b8,
+                      memory.bits.b9,
+                      memory.bits.b10,
+                      memory.bits.b12,
+                      memory.bits.b13,
+                      memory.bits.b14,
+                      memory.bits.b15,
+                      memory.bits.b16,
+                      memory.bits.b17,
+                      memory.bits.b18);
     }
 }
