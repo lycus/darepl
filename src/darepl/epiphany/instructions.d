@@ -22,6 +22,7 @@ public final class EpiphanyInstruction : Instruction
         _opCode = opCode;
         _operand1 = operand1;
         _operand2 = operand2;
+        _operand3 = operand3;
     }
 
     @property public EpiphanyOpCodeName opCode() pure nothrow
