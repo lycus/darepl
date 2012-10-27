@@ -5,7 +5,9 @@ import darepl.core.common,
        darepl.core.lexer,
        darepl.core.machine,
        darepl.core.parser,
-       darepl.core.target;
+       darepl.core.target,
+       darepl.epiphany.machine,
+       darepl.epiphany.parser;
 
 public final class EpiphanyTarget : Target
 {
@@ -22,15 +24,18 @@ public final class EpiphanyTarget : Target
     protected override Parser createParser(Machine machine, Token[] tokens) pure nothrow
     {
         assert(false);
+//        return new EpiphanyParser(cast(EpiphanyMachine)machine, tokens);
     }
 
     public override bool run(ubyte bits)
     {
-        return repl(null, bits);
+        return repl(new EpiphanyMachine(this, bits), bits);
     }
 
     protected override bool handleInstruction(Machine machine, Instruction instruction)
     {
+        machine.dispatch(instruction);
+
         return true;
     }
 }
