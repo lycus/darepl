@@ -50,6 +50,70 @@ public final class EpiphanyMachine : Machine
 
     protected override void initializeRegisters(ubyte bits) pure nothrow
     {
+        registers[EpiphanyRegisterName.r0] = new EpiphanyRegister32(EpiphanyRegisterName.r0);
+        registers[EpiphanyRegisterName.r1] = new EpiphanyRegister32(EpiphanyRegisterName.r1);
+        registers[EpiphanyRegisterName.r2] = new EpiphanyRegister32(EpiphanyRegisterName.r2);
+        registers[EpiphanyRegisterName.r3] = new EpiphanyRegister32(EpiphanyRegisterName.r3);
+        registers[EpiphanyRegisterName.r4] = new EpiphanyRegister32(EpiphanyRegisterName.r4);
+        registers[EpiphanyRegisterName.r5] = new EpiphanyRegister32(EpiphanyRegisterName.r5);
+        registers[EpiphanyRegisterName.r6] = new EpiphanyRegister32(EpiphanyRegisterName.r6);
+        registers[EpiphanyRegisterName.r7] = new EpiphanyRegister32(EpiphanyRegisterName.r7);
+        registers[EpiphanyRegisterName.r8] = new EpiphanyRegister32(EpiphanyRegisterName.r8);
+        registers[EpiphanyRegisterName.r9] = new EpiphanyRegister32(EpiphanyRegisterName.r9);
+        registers[EpiphanyRegisterName.r10] = new EpiphanyRegister32(EpiphanyRegisterName.r10);
+        registers[EpiphanyRegisterName.r11] = new EpiphanyRegister32(EpiphanyRegisterName.r11);
+        registers[EpiphanyRegisterName.r12] = new EpiphanyRegister32(EpiphanyRegisterName.r12);
+        registers[EpiphanyRegisterName.r13] = new EpiphanyRegister32(EpiphanyRegisterName.r13);
+        registers[EpiphanyRegisterName.r14] = new EpiphanyRegister32(EpiphanyRegisterName.r14);
+        registers[EpiphanyRegisterName.r15] = new EpiphanyRegister32(EpiphanyRegisterName.r15);
+        registers[EpiphanyRegisterName.r16] = new EpiphanyRegister32(EpiphanyRegisterName.r16);
+        registers[EpiphanyRegisterName.r17] = new EpiphanyRegister32(EpiphanyRegisterName.r17);
+        registers[EpiphanyRegisterName.r18] = new EpiphanyRegister32(EpiphanyRegisterName.r18);
+        registers[EpiphanyRegisterName.r19] = new EpiphanyRegister32(EpiphanyRegisterName.r19);
+        registers[EpiphanyRegisterName.r20] = new EpiphanyRegister32(EpiphanyRegisterName.r20);
+        registers[EpiphanyRegisterName.r21] = new EpiphanyRegister32(EpiphanyRegisterName.r21);
+        registers[EpiphanyRegisterName.r22] = new EpiphanyRegister32(EpiphanyRegisterName.r22);
+        registers[EpiphanyRegisterName.r23] = new EpiphanyRegister32(EpiphanyRegisterName.r23);
+        registers[EpiphanyRegisterName.r24] = new EpiphanyRegister32(EpiphanyRegisterName.r24);
+        registers[EpiphanyRegisterName.r25] = new EpiphanyRegister32(EpiphanyRegisterName.r25);
+        registers[EpiphanyRegisterName.r26] = new EpiphanyRegister32(EpiphanyRegisterName.r26);
+        registers[EpiphanyRegisterName.r27] = new EpiphanyRegister32(EpiphanyRegisterName.r27);
+        registers[EpiphanyRegisterName.r28] = new EpiphanyRegister32(EpiphanyRegisterName.r28);
+        registers[EpiphanyRegisterName.r29] = new EpiphanyRegister32(EpiphanyRegisterName.r29);
+        registers[EpiphanyRegisterName.r30] = new EpiphanyRegister32(EpiphanyRegisterName.r30);
+        registers[EpiphanyRegisterName.r31] = new EpiphanyRegister32(EpiphanyRegisterName.r31);
+        registers[EpiphanyRegisterName.r32] = new EpiphanyRegister32(EpiphanyRegisterName.r32);
+        registers[EpiphanyRegisterName.r33] = new EpiphanyRegister32(EpiphanyRegisterName.r33);
+        registers[EpiphanyRegisterName.r34] = new EpiphanyRegister32(EpiphanyRegisterName.r34);
+        registers[EpiphanyRegisterName.r35] = new EpiphanyRegister32(EpiphanyRegisterName.r35);
+        registers[EpiphanyRegisterName.r36] = new EpiphanyRegister32(EpiphanyRegisterName.r36);
+        registers[EpiphanyRegisterName.r37] = new EpiphanyRegister32(EpiphanyRegisterName.r37);
+        registers[EpiphanyRegisterName.r38] = new EpiphanyRegister32(EpiphanyRegisterName.r38);
+        registers[EpiphanyRegisterName.r39] = new EpiphanyRegister32(EpiphanyRegisterName.r39);
+        registers[EpiphanyRegisterName.r40] = new EpiphanyRegister32(EpiphanyRegisterName.r40);
+        registers[EpiphanyRegisterName.r41] = new EpiphanyRegister32(EpiphanyRegisterName.r41);
+        registers[EpiphanyRegisterName.r42] = new EpiphanyRegister32(EpiphanyRegisterName.r42);
+        registers[EpiphanyRegisterName.r43] = new EpiphanyRegister32(EpiphanyRegisterName.r43);
+        registers[EpiphanyRegisterName.r44] = new EpiphanyRegister32(EpiphanyRegisterName.r44);
+        registers[EpiphanyRegisterName.r45] = new EpiphanyRegister32(EpiphanyRegisterName.r45);
+        registers[EpiphanyRegisterName.r46] = new EpiphanyRegister32(EpiphanyRegisterName.r46);
+        registers[EpiphanyRegisterName.r47] = new EpiphanyRegister32(EpiphanyRegisterName.r47);
+        registers[EpiphanyRegisterName.r48] = new EpiphanyRegister32(EpiphanyRegisterName.r48);
+        registers[EpiphanyRegisterName.r49] = new EpiphanyRegister32(EpiphanyRegisterName.r49);
+        registers[EpiphanyRegisterName.r50] = new EpiphanyRegister32(EpiphanyRegisterName.r50);
+        registers[EpiphanyRegisterName.r51] = new EpiphanyRegister32(EpiphanyRegisterName.r51);
+        registers[EpiphanyRegisterName.r52] = new EpiphanyRegister32(EpiphanyRegisterName.r52);
+        registers[EpiphanyRegisterName.r53] = new EpiphanyRegister32(EpiphanyRegisterName.r53);
+        registers[EpiphanyRegisterName.r54] = new EpiphanyRegister32(EpiphanyRegisterName.r54);
+        registers[EpiphanyRegisterName.r55] = new EpiphanyRegister32(EpiphanyRegisterName.r55);
+        registers[EpiphanyRegisterName.r56] = new EpiphanyRegister32(EpiphanyRegisterName.r56);
+        registers[EpiphanyRegisterName.r57] = new EpiphanyRegister32(EpiphanyRegisterName.r57);
+        registers[EpiphanyRegisterName.r58] = new EpiphanyRegister32(EpiphanyRegisterName.r58);
+        registers[EpiphanyRegisterName.r59] = new EpiphanyRegister32(EpiphanyRegisterName.r59);
+        registers[EpiphanyRegisterName.r60] = new EpiphanyRegister32(EpiphanyRegisterName.r60);
+        registers[EpiphanyRegisterName.r61] = new EpiphanyRegister32(EpiphanyRegisterName.r61);
+        registers[EpiphanyRegisterName.r62] = new EpiphanyRegister32(EpiphanyRegisterName.r62);
+        registers[EpiphanyRegisterName.r63] = new EpiphanyRegister32(EpiphanyRegisterName.r63);
     }
 }
 
