@@ -8,7 +8,8 @@ import std.conv,
        darepl.epiphany.enums,
        darepl.epiphany.expressions,
        darepl.epiphany.instructions,
-       darepl.epiphany.target;
+       darepl.epiphany.target,
+       darepl.epiphany.emulation.arithmetic;
 
 public final class EpiphanyMachine : Machine
 {
