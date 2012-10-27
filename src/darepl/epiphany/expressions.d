@@ -24,3 +24,47 @@ public final class EpiphanyRegisterExpression : EpiphanyExpression
         return _register;
     }
 }
+
+public final class EpiphanyCommaExpression : EpiphanyExpression
+{
+    private Expression _first;
+    private Expression _second;
+
+    pure nothrow invariant()
+    {
+        assert(_first);
+        assert(_second);
+    }
+
+    public this(Expression first, Expression second) pure nothrow
+    in
+    {
+        assert(first);
+        assert(second);
+    }
+    body
+    {
+        _first = first;
+        _second = second;
+    }
+
+    @property public Expression first() pure nothrow
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return _first;
+    }
+
+    @property public Expression second() pure nothrow
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return _second;
+    }
+}

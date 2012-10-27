@@ -108,6 +108,13 @@ public final class EpiphanyParser : Parser
                 error("Invalid opcode operand.");
 
             auto expr = parseExpression();
+
+            if (auto comma = cast(DelimiterToken)next())
+            {
+                moveNext();
+                expr = new EpiphanyCommaExpression(expr, parseExpression());
+            }
+
             auto closing = cast(DelimiterToken)moveNext();
 
             if (!closing || closing.type != DelimiterType.closeBracket)
