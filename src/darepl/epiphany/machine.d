@@ -29,7 +29,9 @@ public final class EpiphanyMachine : Machine
 
         static string operandToString(Object operand)
         {
-            if (auto expr = cast(EpiphanyExpression)operand)
+            if (auto comma = cast(EpiphanyCommaExpression)operand)
+                return "disp";
+            else if (auto expr = cast(EpiphanyExpression)operand)
                 return "mem";
             else if (auto reg = cast(EpiphanyRegister)operand)
                 return "reg32";
