@@ -1,19 +1,14 @@
 module darepl.epiphany.instructions;
 
 import std.variant,
+       darepl.core.expressions,
        darepl.core.lexer,
        darepl.core.parser,
        darepl.epiphany.enums,
+       darepl.epiphany.expressions,
        darepl.epiphany.machine;
 
-public abstract class EpiphanyExpression
-{
-    private this() pure nothrow
-    {
-    }
-}
-
-public alias Algebraic!(EpiphanyExpression, EpiphanyRegister, Literal) EpiphanyOperand;
+public alias Algebraic!(Expression, EpiphanyRegister, Literal) EpiphanyOperand;
 
 public final class EpiphanyInstruction : Instruction
 {

@@ -6,6 +6,7 @@ import std.conv,
        darepl.core.machine,
        darepl.core.parser,
        darepl.epiphany.enums,
+       darepl.epiphany.expressions,
        darepl.epiphany.instructions,
        darepl.epiphany.target;
 

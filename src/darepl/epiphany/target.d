@@ -23,8 +23,7 @@ public final class EpiphanyTarget : Target
 
     protected override Parser createParser(Machine machine, Token[] tokens) pure nothrow
     {
-        assert(false);
-//        return new EpiphanyParser(cast(EpiphanyMachine)machine, tokens);
+        return new EpiphanyParser(cast(EpiphanyMachine)machine, tokens);
     }
 
     public override bool run(ubyte bits)
