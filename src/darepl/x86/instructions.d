@@ -8,7 +8,7 @@ import std.variant,
 
 public abstract class X86Expression
 {
-    private this()
+    private this() pure nothrow
     {
     }
 }
@@ -17,12 +17,12 @@ public final class X86LiteralExpression : X86Expression
 {
     private Literal _literal;
 
-    public this(Literal literal)
+    public this(Literal literal) pure nothrow
     {
         _literal = literal;
     }
 
-    @property public Literal literal()
+    @property public Literal literal() pure nothrow
     {
         return _literal;
     }
@@ -32,12 +32,12 @@ public final class X86RegisterExpression : X86Expression
 {
     private X86Register _register;
 
-    public this(X86Register register)
+    public this(X86Register register) pure nothrow
     {
         _register = register;
     }
 
-    @property public X86Register register()
+    @property public X86Register register() pure nothrow
     {
         return _register;
     }
@@ -47,12 +47,12 @@ public abstract class X86UnaryExpression : X86Expression
 {
     private X86Expression _expression;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_expression);
     }
 
-    public this(X86Expression expression)
+    public this(X86Expression expression) pure nothrow
     in
     {
         assert(expression);
@@ -62,7 +62,7 @@ public abstract class X86UnaryExpression : X86Expression
         _expression = expression;
     }
 
-    @property public X86Expression expression()
+    @property public X86Expression expression() pure nothrow
     out (result)
     {
         assert(result);
@@ -75,7 +75,7 @@ public abstract class X86UnaryExpression : X86Expression
 
 public final class X86NegateExpression : X86UnaryExpression
 {
-    public this(X86Expression expression)
+    public this(X86Expression expression) pure nothrow
     in
     {
         assert(expression);
@@ -91,13 +91,13 @@ public abstract class X86BinaryExpression : X86Expression
     private X86Expression _left;
     private X86Expression _right;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_left);
         assert(_right);
     }
 
-    public this(X86Expression left, X86Expression right)
+    public this(X86Expression left, X86Expression right) pure nothrow
     in
     {
         assert(left);
@@ -109,7 +109,7 @@ public abstract class X86BinaryExpression : X86Expression
         _right = right;
     }
 
-    @property public X86Expression left()
+    @property public X86Expression left() pure nothrow
     out (result)
     {
         assert(result);
@@ -119,7 +119,7 @@ public abstract class X86BinaryExpression : X86Expression
         return _left;
     }
 
-    @property public X86Expression right()
+    @property public X86Expression right() pure nothrow
     out (result)
     {
         assert(result);
@@ -132,7 +132,7 @@ public abstract class X86BinaryExpression : X86Expression
 
 public final class X86AddExpression : X86BinaryExpression
 {
-    public this(X86Expression left, X86Expression right)
+    public this(X86Expression left, X86Expression right) pure nothrow
     in
     {
         assert(left);
@@ -146,7 +146,7 @@ public final class X86AddExpression : X86BinaryExpression
 
 public final class X86MultiplyExpression : X86BinaryExpression
 {
-    public this(X86Expression left, X86Expression right)
+    public this(X86Expression left, X86Expression right) pure nothrow
     in
     {
         assert(left);
@@ -168,7 +168,7 @@ public final class X86Instruction : Instruction
     private X86Operand _operand2;
     private X86Operand _operand3;
 
-    public this(X86PrefixName prefix, X86OpCodeName opCode, X86Operand operand1, X86Operand operand2, X86Operand operand3)
+    public this(X86PrefixName prefix, X86OpCodeName opCode, X86Operand operand1, X86Operand operand2, X86Operand operand3) nothrow
     {
         _prefix = prefix;
         _opCode = opCode;
@@ -177,27 +177,27 @@ public final class X86Instruction : Instruction
         _operand3 = operand3;
     }
 
-    @property public X86PrefixName prefix()
+    @property public X86PrefixName prefix() pure nothrow
     {
         return _prefix;
     }
 
-    @property public X86OpCodeName opCode()
+    @property public X86OpCodeName opCode() pure nothrow
     {
         return _opCode;
     }
 
-    @property public X86Operand operand1()
+    @property public X86Operand operand1() pure nothrow
     {
         return _operand1;
     }
 
-    @property public X86Operand operand2()
+    @property public X86Operand operand2() pure nothrow
     {
         return _operand2;
     }
 
-    @property public X86Operand operand3()
+    @property public X86Operand operand3() pure nothrow
     {
         return _operand3;
     }

@@ -10,18 +10,18 @@ import std.algorithm,
 
 public abstract class Target
 {
-    @property public abstract Architecture architecture();
+    @property public abstract Architecture architecture() pure nothrow;
 
-    @property public abstract ubyte[] supportedBits();
+    @property public abstract ubyte[] supportedBits() pure nothrow;
 
     public abstract bool run(ubyte bits);
 
-    protected Lexer createLexer(string input)
+    protected Lexer createLexer(string input) pure nothrow
     {
         return new Lexer(input);
     }
 
-    protected abstract Parser createParser(Machine machine, Token[] tokens);
+    protected abstract Parser createParser(Machine machine, Token[] tokens) pure nothrow;
 
     protected abstract bool handleInstruction(Machine machine, Instruction instruction);
 

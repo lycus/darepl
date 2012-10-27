@@ -9,17 +9,17 @@ import darepl.core.common,
 
 public final class IA64Target : Target
 {
-    @property public override Architecture architecture()
+    @property public override Architecture architecture() pure nothrow
     {
         return Architecture.ia64;
     }
 
-    @property public override ubyte[] supportedBits()
+    @property public override ubyte[] supportedBits() pure nothrow
     {
         return [64];
     }
 
-    protected override Parser createParser(Machine machine, Token[] tokens)
+    protected override Parser createParser(Machine machine, Token[] tokens) pure nothrow
     {
         assert(false);
     }

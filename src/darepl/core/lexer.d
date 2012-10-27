@@ -45,18 +45,18 @@ public final class Literal
     private LiteralType _type;
     private LiteralValue _value;
 
-    public this(LiteralType type, LiteralValue value)
+    public this(LiteralType type, LiteralValue value) pure nothrow
     {
         _type = type;
         _value = value;
     }
 
-    @property public LiteralType type()
+    @property public LiteralType type() pure nothrow
     {
         return _type;
     }
 
-    @property public LiteralValue value()
+    @property public LiteralValue value() pure nothrow
     {
         return _value;
     }
@@ -70,12 +70,12 @@ public final class IdentifierToken : Token
 {
     private string _value;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_value);
     }
 
-    public this(string value)
+    public this(string value) pure nothrow
     in
     {
         assert(value);
@@ -85,7 +85,7 @@ public final class IdentifierToken : Token
         _value = value;
     }
 
-    @property public string value()
+    @property public string value() pure nothrow
     out (result)
     {
         assert(result);
@@ -100,12 +100,12 @@ public final class LiteralToken : Token
 {
     private Literal _value;
 
-    public this(Literal value)
+    public this(Literal value) pure nothrow
     {
         _value = value;
     }
 
-    @property public Literal value()
+    @property public Literal value() pure nothrow
     {
         return _value;
     }
@@ -130,12 +130,12 @@ public final class DelimiterToken : Token
     private DelimiterType _type;
     private string _value;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_value);
     }
 
-    public this(DelimiterType type, string value)
+    public this(DelimiterType type, string value) pure nothrow
     in
     {
         assert(value);
@@ -146,12 +146,12 @@ public final class DelimiterToken : Token
         _value = value;
     }
 
-    @property public DelimiterType type()
+    @property public DelimiterType type() pure nothrow
     {
         return _type;
     }
 
-    @property public string value()
+    @property public string value() pure nothrow
     out (result)
     {
         assert(result);
@@ -168,12 +168,12 @@ public class Lexer
     private size_t _position;
     private char _current;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_string);
     }
 
-    public this(string value)
+    public this(string value) pure nothrow
     in
     {
         assert(value);
@@ -183,12 +183,12 @@ public class Lexer
         _string = value;
     }
 
-    protected final char current()
+    protected final char current() pure nothrow
     {
         return _current;
     }
 
-    protected final char next()
+    protected final char next() pure nothrow
     {
         if (_position == _string.length)
             return char.init;
@@ -196,7 +196,7 @@ public class Lexer
         return _string[_position];
     }
 
-    protected final char moveNext()
+    protected final char moveNext() pure nothrow
     {
         if (_position == _string.length)
             return _current = char.init;
@@ -204,7 +204,7 @@ public class Lexer
         return _current = _string[_position++];
     }
 
-    protected final char peek(size_t offset)
+    protected final char peek(size_t offset) pure nothrow
     {
         if (!offset)
             return _current;
@@ -306,7 +306,7 @@ public class Lexer
         return null;
     }
 
-    protected final Token lexIdentifier(char chr)
+    protected final Token lexIdentifier(char chr) pure
     {
         string id = [chr];
 
@@ -527,7 +527,7 @@ public class Lexer
         return new LiteralToken(new Literal(type, value));
     }
 
-    protected Token virtualLexNext(char chr)
+    protected Token virtualLexNext(char chr) pure nothrow
     {
         return null;
     }

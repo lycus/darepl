@@ -11,17 +11,17 @@ import darepl.core.common,
 
 public final class X86Target : Target
 {
-    @property public override Architecture architecture()
+    @property public override Architecture architecture() pure nothrow
     {
         return Architecture.x86;
     }
 
-    @property public override ubyte[] supportedBits()
+    @property public override ubyte[] supportedBits() pure nothrow
     {
         return [32, 64];
     }
 
-    protected override X86Parser createParser(Machine machine, Token[] tokens)
+    protected override X86Parser createParser(Machine machine, Token[] tokens) pure nothrow
     {
         return new X86Parser(cast(X86Machine)machine, tokens);
     }

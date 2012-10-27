@@ -41,12 +41,12 @@ public abstract class Parser
     private Token[] _tokens;
     private size_t _position;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_tokens);
     }
 
-    protected this(Token[] tokens)
+    protected this(Token[] tokens) pure nothrow
     in
     {
         assert(tokens);
@@ -57,7 +57,7 @@ public abstract class Parser
         _tokens ~= tokens;
     }
 
-    protected final Token current()
+    protected final Token current() pure nothrow
     in
     {
         assert(_position);
@@ -71,7 +71,7 @@ public abstract class Parser
         return _tokens[_position];
     }
 
-    protected final Token previous()
+    protected final Token previous() pure nothrow
     out (result)
     {
         assert(result);
@@ -81,7 +81,7 @@ public abstract class Parser
         return _tokens[_position - 1];
     }
 
-    protected final Token next()
+    protected final Token next() pure nothrow
     out (result)
     {
         assert(result);
@@ -91,12 +91,12 @@ public abstract class Parser
         return _tokens[_position + 1];
     }
 
-    protected final bool done()
+    protected final bool done() pure nothrow
     {
         return _position == _tokens.length - 1;
     }
 
-    protected final Token movePrevious()
+    protected final Token movePrevious() pure nothrow
     out (result)
     {
         assert(result);

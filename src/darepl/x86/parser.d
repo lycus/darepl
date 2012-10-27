@@ -11,12 +11,12 @@ public final class X86Parser : Parser
 {
     private X86Machine _machine;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_machine);
     }
 
-    public this(X86Machine machine, Token[] tokens)
+    public this(X86Machine machine, Token[] tokens) pure nothrow
     in
     {
         assert(machine);

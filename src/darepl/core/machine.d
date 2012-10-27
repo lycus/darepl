@@ -21,12 +21,12 @@ public abstract class Machine
     private Register[ushort] _registers;
     private Register[] _snapshot;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_target);
     }
 
-    protected this(Target target, ubyte bits)
+    protected this(Target target, ubyte bits) pure nothrow
     in
     {
         assert(target);
@@ -39,7 +39,7 @@ public abstract class Machine
         initializeRegisters(bits);
     }
 
-    @property public final Target target()
+    @property public final Target target() pure nothrow
     out (result)
     {
         assert(result);
@@ -49,12 +49,12 @@ public abstract class Machine
         return _target;
     }
 
-    @property public final ubyte bits()
+    @property public final ubyte bits() pure nothrow
     {
         return _bits;
     }
 
-    @property public final ref Register[ushort] registers()
+    @property public final ref Register[ushort] registers() pure nothrow
     {
         return _registers;
     }
@@ -141,7 +141,7 @@ public abstract class Machine
             writef("[%s]\t{%s} -> {%s}", pre.name, pre.stringize(), post.stringize());
     }
 
-    protected abstract void initializeRegisters(ubyte bits);
+    protected abstract void initializeRegisters(ubyte bits) pure nothrow;
 
     protected abstract string createDispatchString(Instruction instruction);
 }
@@ -193,13 +193,13 @@ public abstract class Register
     private string _name;
     private RegisterMemory* _memory;
 
-    invariant()
+    pure nothrow invariant()
     {
         assert(_name);
         assert(_memory);
     }
 
-    protected this(string name)
+    protected this(string name) pure nothrow
     in
     {
         assert(name);
@@ -209,7 +209,7 @@ public abstract class Register
         this(name, new RegisterMemory());
     }
 
-    protected this(string name, RegisterMemory memory)
+    protected this(string name, RegisterMemory memory) pure nothrow
     in
     {
         assert(name);
@@ -221,7 +221,7 @@ public abstract class Register
         *_memory = memory;
     }
 
-    protected this(string name, RegisterMemory* memory)
+    protected this(string name, RegisterMemory* memory) pure nothrow
     in
     {
         assert(name);
@@ -233,7 +233,7 @@ public abstract class Register
         _memory = memory;
     }
 
-    @property public final RegisterMemory* memory()
+    @property public final RegisterMemory* memory() pure nothrow
     out (result)
     {
         assert(result);
@@ -243,7 +243,7 @@ public abstract class Register
         return _memory;
     }
 
-    @property public final string name()
+    @property public final string name() pure nothrow
     out (result)
     {
         assert(result);
@@ -253,7 +253,7 @@ public abstract class Register
         return _name;
     }
 
-    public abstract Register snapshot();
+    public abstract Register snapshot() pure nothrow;
 
     public abstract string stringize();
 }

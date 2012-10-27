@@ -9,17 +9,17 @@ import darepl.core.common,
 
 public final class ARMTarget : Target
 {
-    @property public override Architecture architecture()
+    @property public override Architecture architecture() pure nothrow
     {
         return Architecture.arm;
     }
 
-    @property public override ubyte[] supportedBits()
+    @property public override ubyte[] supportedBits() pure nothrow
     {
         return [32, 64];
     }
 
-    protected override Parser createParser(Machine machine, Token[] tokens)
+    protected override Parser createParser(Machine machine, Token[] tokens) pure nothrow
     {
         assert(false);
     }
