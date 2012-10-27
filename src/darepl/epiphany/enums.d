@@ -54,7 +54,7 @@ public enum EpiphanyOpCodeName : ubyte
     testset,
 }
 
-public enum EpiphanyRegisterName : ubyte
+public enum EpiphanyRegisterName : ushort
 {
     r0,
     r1,

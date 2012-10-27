@@ -11,13 +11,13 @@ public enum X86PrefixName : ubyte
     repz,
 }
 
-public enum X86OpCodeName : ushort
+public enum X86OpCodeName : ubyte
 {
     add,
     nop,
 }
 
-public enum X86RegisterName : ubyte
+public enum X86RegisterName : ushort
 {
     eax,
     ebx,
