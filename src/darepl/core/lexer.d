@@ -119,6 +119,14 @@ public enum DelimiterType : ubyte
     minus,
     star,
     slash,
+    percent,
+    pipe,
+    ampersand,
+    tilde,
+    caret,
+    exclamation,
+    leftArrow,
+    rightArrow,
     openBracket,
     closeBracket,
     openParen,
@@ -279,6 +287,18 @@ public class Lexer
                     return new DelimiterToken(DelimiterType.star, [chr]);
                 case '/':
                     return new DelimiterToken(DelimiterType.slash, [chr]);
+                case '%':
+                    return new DelimiterToken(DelimiterType.percent, [chr]);
+                case '|':
+                    return new DelimiterToken(DelimiterType.pipe, [chr]);
+                case '&':
+                    return new DelimiterToken(DelimiterType.ampersand, [chr]);
+                case '~':
+                    return new DelimiterToken(DelimiterType.tilde, [chr]);
+                case '^':
+                    return new DelimiterToken(DelimiterType.caret, [chr]);
+                case '!':
+                    return new DelimiterToken(DelimiterType.exclamation, [chr]);
                 case '[':
                     return new DelimiterToken(DelimiterType.openBracket, [chr]);
                 case ']':
@@ -289,6 +309,22 @@ public class Lexer
                     return new DelimiterToken(DelimiterType.closeParen, [chr]);
                 default:
                     break;
+            }
+
+            if (chr == '<' || chr == '>')
+            {
+                string arrow = [chr, next()];
+
+                if (arrow == "<<")
+                {
+                    moveNext();
+                    return new DelimiterToken(DelimiterType.leftArrow, arrow);
+                }
+                else if (arrow == ">>")
+                {
+                    moveNext();
+                    return new DelimiterToken(DelimiterType.rightArrow, arrow);
+                }
             }
 
             if (isDigit(chr))
@@ -471,6 +507,7 @@ public class Lexer
         }
 
         LiteralValue value;
+        auto copy = literal;
 
         try
         {
@@ -514,7 +551,7 @@ public class Lexer
         }
         catch (ConvException)
         {
-            writef("Could not lex value %s as type %s.", literal, type);
+            writef("Could not lex value %s as type %s.", copy, type);
             return null;
         }
 

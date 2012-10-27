@@ -154,7 +154,7 @@ public final class X86Parser : Parser
     }
     body
     {
-        return parseAddExpression();
+        return parseOrExpression();
     }
 
     private X86Expression parsePrimaryExpression()
@@ -217,17 +217,118 @@ public final class X86Parser : Parser
     }
     body
     {
-        if (auto neg = cast(DelimiterToken)next())
+        if (auto tok = cast(DelimiterToken)next())
         {
-            if (neg.type == DelimiterType.minus)
+            switch (tok.type)
             {
-                moveNext();
-
-                return new X86NegateExpression(parseUnaryExpression());
+                case DelimiterType.minus:
+                    moveNext();
+                    return new X86NegateExpression(parseUnaryExpression());
+                case DelimiterType.plus:
+                    moveNext();
+                    return new X86PlusExpression(parseUnaryExpression());
+                case DelimiterType.exclamation:
+                    moveNext();
+                    return new X86NotExpression(parseUnaryExpression());
+                case DelimiterType.tilde:
+                    moveNext();
+                    return new X86ComplementExpression(parseUnaryExpression());
+                default:
+                    break;
             }
         }
 
         return parsePrimaryExpression();
+    }
+
+    private X86Expression parseOrExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        auto e = parseExclusiveOrExpression();
+
+        if (auto tok = cast(DelimiterToken)next())
+        {
+            if (tok.type == DelimiterType.pipe)
+            {
+                moveNext();
+                return new X86OrExpression(e, parseExclusiveOrExpression());
+            }
+        }
+
+        return e;
+    }
+
+    private X86Expression parseExclusiveOrExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        auto e = parseAndExpression();
+
+        if (auto tok = cast(DelimiterToken)next())
+        {
+            if (tok.type == DelimiterType.caret)
+            {
+                moveNext();
+                return new X86ExclusiveOrExpression(e, parseAndExpression());
+            }
+        }
+
+        return e;
+    }
+
+    private X86Expression parseAndExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        auto e = parseShiftExpression();
+
+        if (auto tok = cast(DelimiterToken)next())
+        {
+            if (tok.type == DelimiterType.ampersand)
+            {
+                moveNext();
+                return new X86AndExpression(e, parseShiftExpression());
+            }
+        }
+
+        return e;
+    }
+
+    private X86Expression parseShiftExpression()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        auto e = parseAddExpression();
+
+        if (auto tok = cast(DelimiterToken)next())
+        {
+            switch (tok.type)
+            {
+                case DelimiterType.leftArrow:
+                    moveNext();
+                    return new X86LeftShiftExpression(e, parseAddExpression());
+                case DelimiterType.rightArrow:
+                    moveNext();
+                    return new X86RightShiftExpression(e, parseAddExpression());
+                default:
+                    break;
+            }
+        }
+
+        return e;
     }
 
     private X86Expression parseAddExpression()
@@ -239,15 +340,22 @@ public final class X86Parser : Parser
     {
         auto e = parseMultiplyExpression();
 
-        if (auto add = cast(DelimiterToken)next())
+        if (auto tok = cast(DelimiterToken)next())
         {
-            if (add.type != DelimiterType.plus)
-                return e;
-
-            moveNext();
+            switch (tok.type)
+            {
+                case DelimiterType.plus:
+                    moveNext();
+                    return new X86AddExpression(e, parseMultiplyExpression());
+                case DelimiterType.minus:
+                    moveNext();
+                    return new X86SubtractExpression(e, parseMultiplyExpression());
+                default:
+                    break;
+            }
         }
 
-        return new X86AddExpression(e, parseMultiplyExpression());
+        return e;
     }
 
     private X86Expression parseMultiplyExpression()
@@ -259,14 +367,24 @@ public final class X86Parser : Parser
     {
         auto e = parseUnaryExpression();
 
-        if (auto mul = cast(DelimiterToken)next())
+        if (auto tok = cast(DelimiterToken)next())
         {
-            if (mul.type != DelimiterType.star)
-                return e;
-
-            moveNext();
+            switch (tok.type)
+            {
+                case DelimiterType.star:
+                    moveNext();
+                    return new X86MultiplyExpression(e, parseUnaryExpression());
+                case DelimiterType.slash:
+                    moveNext();
+                    return new X86DivideExpression(e, parseUnaryExpression());
+                case DelimiterType.percent:
+                    moveNext();
+                    return new X86ModuloExpression(e, parseUnaryExpression());
+                default:
+                    break;
+            }
         }
 
-        return new X86MultiplyExpression(e, parseUnaryExpression());
+        return e;
     }
 }

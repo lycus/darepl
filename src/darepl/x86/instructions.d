@@ -86,6 +86,45 @@ public final class X86NegateExpression : X86UnaryExpression
     }
 }
 
+public final class X86PlusExpression : X86UnaryExpression
+{
+    public this(X86Expression expression) pure nothrow
+    in
+    {
+        assert(expression);
+    }
+    body
+    {
+        super(expression);
+    }
+}
+
+public final class X86NotExpression : X86UnaryExpression
+{
+    public this(X86Expression expression) pure nothrow
+    in
+    {
+        assert(expression);
+    }
+    body
+    {
+        super(expression);
+    }
+}
+
+public final class X86ComplementExpression : X86UnaryExpression
+{
+    public this(X86Expression expression) pure nothrow
+    in
+    {
+        assert(expression);
+    }
+    body
+    {
+        super(expression);
+    }
+}
+
 public abstract class X86BinaryExpression : X86Expression
 {
     private X86Expression _left;
@@ -144,7 +183,119 @@ public final class X86AddExpression : X86BinaryExpression
     }
 }
 
+public final class X86SubtractExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
 public final class X86MultiplyExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
+public final class X86DivideExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
+public final class X86ModuloExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
+public final class X86OrExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
+public final class X86AndExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
+public final class X86ExclusiveOrExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
+public final class X86LeftShiftExpression : X86BinaryExpression
+{
+    public this(X86Expression left, X86Expression right) pure nothrow
+    in
+    {
+        assert(left);
+        assert(right);
+    }
+    body
+    {
+        super(left, right);
+    }
+}
+
+public final class X86RightShiftExpression : X86BinaryExpression
 {
     public this(X86Expression left, X86Expression right) pure nothrow
     in
