@@ -120,3 +120,25 @@ unittest
     assert(mach.reg!"r0"().memory.u32[0] == 0);
     assert(mach.status.memory.bits.b4);
 }
+
+unittest
+{
+    auto mach = machine();
+
+    mach.run!"mov"(mach.reg!"r0"(), u16(ushort.max));
+    mach.run!"movt"(mach.reg!"r0"(), u16(ushort.max));
+
+    assert(mach.reg!"r0"().memory.u32[0] == uint.max);
+}
+
+unittest
+{
+    auto mach = machine();
+
+    mach.run!"mov"(mach.reg!"r0"(), u16(ushort.max));
+    mach.run!"movt"(mach.reg!"r0"(), u16(ushort.max));
+    mach.run!"add"(mach.reg!"r0"(), mach.reg!"r0"(), u8(7));
+
+    assert(mach.reg!"r0"().memory.u32[0] == 6);
+    assert(mach.status.memory.bits.b7);
+}

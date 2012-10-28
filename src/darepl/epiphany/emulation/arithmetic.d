@@ -10,6 +10,9 @@ public extern (C)
     void epiphany_add_reg32_reg32_reg32(EpiphanyMachine machine, EpiphanyInstruction instruction,
                                         EpiphanyRegister32 rd, EpiphanyRegister32 rn, EpiphanyRegister32 rm)
     {
+        auto sign1 = rm.memory.bits.b31;
+        auto sign2 = rn.memory.bits.b31;
+
         // RD = RN + RM
         rd.memory.u32[0] = rn.memory.u32[0] + rm.memory.u32[0];
 
@@ -23,8 +26,8 @@ public extern (C)
         machine.status.memory.bits.b4 = !rd.memory.u32[0];
 
         // if ((RD[31] & ~RM[31] & ~RN[31]) | (~RD[31] & RM[31] & RN[31])) { AV = 1 } else { AV = 0 }
-        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~rm.memory.bits.b31 & ~rn.memory.bits.b31) |
-                                        (~rd.memory.bits.b31 & rm.memory.bits.b31 & rn.memory.bits.b31);
+        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~sign1 & ~sign2) |
+                                        (~rd.memory.bits.b31 & sign1 & sign2);
 
         // AVS = AVS | AV
         machine.status.memory.bits.b12 = machine.status.memory.bits.b12 | machine.status.memory.bits.b7;
@@ -34,6 +37,7 @@ public extern (C)
                                        EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
         auto simm3 = limitTo(imm.value.value8u, 3);
+        auto sign = rn.memory.bits.b31;
 
         // RD = RN + SIMM3
         rd.memory.u32[0] = rn.memory.u32[0] + simm3;
@@ -48,8 +52,8 @@ public extern (C)
         machine.status.memory.bits.b4 = !rd.memory.u32[0];
 
         // if ((RD[31] & ~SIMM3[2] & ~RN[31]) | (~RD[31] & SIMM3[2] & RN[31])) { AV = 1 } else { AV = 0 }
-        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm3 & 0b001) & ~rn.memory.bits.b31) |
-                                        (~rd.memory.bits.b31 & (simm3 & 0b001) & rn.memory.bits.b31);
+        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm3 & 0b001) & ~sign) |
+                                        (~rd.memory.bits.b31 & (simm3 & 0b001) & sign);
 
         // AVS = AVS | AV
         machine.status.memory.bits.b12 = machine.status.memory.bits.b12 | machine.status.memory.bits.b7;
@@ -59,6 +63,7 @@ public extern (C)
                                         EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
         auto simm11 = limitTo(imm.value.value16u, 11);
+        auto sign = rn.memory.bits.b31;
 
         // RD = RN + SIMM10
         rd.memory.u32[0] = rn.memory.u32[0] + simm11;
@@ -73,8 +78,8 @@ public extern (C)
         machine.status.memory.bits.b4 = !rd.memory.u32[0];
 
         // if ((RD[31] & ~SIMM11[10] & ~RN[31]) | (~RD[31] & SIMM11[10] & RN[31])) { AV = 1 } else { AV = 0 }
-        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm11 & 0b00000000001) & ~rn.memory.bits.b31) |
-                                        (~rd.memory.bits.b31 & (simm11 & 0b00000000001) & rn.memory.bits.b31);
+        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm11 & 0b00000000001) & ~sign) |
+                                        (~rd.memory.bits.b31 & (simm11 & 0b00000000001) & sign);
 
         // AVS = AVS | AV
         machine.status.memory.bits.b12 = machine.status.memory.bits.b12 | machine.status.memory.bits.b7;
@@ -83,6 +88,9 @@ public extern (C)
     void epiphany_sub_reg32_reg32_reg32(EpiphanyMachine machine, EpiphanyInstruction instruction,
                                         EpiphanyRegister32 rd, EpiphanyRegister32 rn, EpiphanyRegister32 rm)
     {
+        auto sign1 = rm.memory.bits.b31;
+        auto sign2 = rn.memory.bits.b31;
+
         // RD = RN - RM
         rd.memory.u32[0] = rn.memory.u32[0] - rm.memory.u32[0];
 
@@ -96,8 +104,8 @@ public extern (C)
         machine.status.memory.bits.b4 = !rd.memory.u32[0];
 
         // if ((RD[31] & ~RM[31] & ~RN[31]) | (~RD[31] & RM[31] & RN[31])) { AV = 1 } else { AV = 0 }
-        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~rm.memory.bits.b31 & ~rn.memory.bits.b31) |
-                                        (~rd.memory.bits.b31 & rm.memory.bits.b31 & rn.memory.bits.b31);
+        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~sign1 & ~sign2) |
+                                        (~rd.memory.bits.b31 & sign1 & sign2);
 
         // AVS = AVS | AV
         machine.status.memory.bits.b12 = machine.status.memory.bits.b12 | machine.status.memory.bits.b7;
@@ -107,6 +115,7 @@ public extern (C)
                                        EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
         auto simm3 = limitTo(imm.value.value8u, 3);
+        auto sign = rn.memory.bits.b31;
 
         // RD = RN - SIMM3
         rd.memory.u32[0] = rn.memory.u32[0] - simm3;
@@ -121,8 +130,8 @@ public extern (C)
         machine.status.memory.bits.b4 = !rd.memory.u32[0];
 
         // if ((RD[31] & ~SIMM3[2] & ~RN[31]) | (~RD[31] & SIMM3[2] & RN[31])) { AV = 1 } else { AV = 0 }
-        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm3 & 0b001) & ~rn.memory.bits.b31) |
-                                        (~rd.memory.bits.b31 & (simm3 & 0b001) & rn.memory.bits.b31);
+        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm3 & 0b001) & ~sign) |
+                                        (~rd.memory.bits.b31 & (simm3 & 0b001) & sign);
 
         // AVS = AVS | AV
         machine.status.memory.bits.b12 = machine.status.memory.bits.b12 | machine.status.memory.bits.b7;
@@ -132,6 +141,7 @@ public extern (C)
                                         EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
         auto simm11 = limitTo(imm.value.value16u, 11);
+        auto sign = rn.memory.bits.b31;
 
         // RD = RN - SIMM10
         rd.memory.u32[0] = rn.memory.u32[0] - simm11;
@@ -146,8 +156,8 @@ public extern (C)
         machine.status.memory.bits.b4 = !rd.memory.u32[0];
 
         // if ((RD[31] & ~SIMM11[10] & ~RN[31]) | (~RD[31] & SIMM11[10] & RN[31])) { AV = 1 } else { AV = 0 }
-        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm11 & 0b00000000001) & ~rn.memory.bits.b31) |
-                                        (~rd.memory.bits.b31 & (simm11 & 0b00000000001) & rn.memory.bits.b31);
+        machine.status.memory.bits.b7 = (rd.memory.bits.b31 & ~(simm11 & 0b00000000001) & ~sign) |
+                                        (~rd.memory.bits.b31 & (simm11 & 0b00000000001) & sign);
 
         // AVS = AVS | AV
         machine.status.memory.bits.b12 = machine.status.memory.bits.b12 | machine.status.memory.bits.b7;
