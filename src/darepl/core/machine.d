@@ -138,7 +138,10 @@ public abstract class Machine
             return;
 
         foreach (pre, post; changed)
-            writef("[%s]\t{%s} -> {%s}", pre.name, pre.stringize(), post.stringize());
+        {
+            writef("%-15s %s", pre.name, pre.stringize());
+            writef("%-15s %s", "->", post.stringize());
+        }
     }
 
     protected abstract void initializeRegisters(ubyte bits) pure nothrow;
