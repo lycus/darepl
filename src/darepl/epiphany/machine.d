@@ -10,6 +10,7 @@ import std.conv,
        darepl.epiphany.instructions,
        darepl.epiphany.target,
        darepl.epiphany.emulation.arithmetic,
+       darepl.epiphany.emulation.logic,
        darepl.epiphany.emulation.misc;
 
 public final class EpiphanyMachine : Machine
