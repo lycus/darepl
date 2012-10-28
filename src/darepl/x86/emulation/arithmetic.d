@@ -13,6 +13,6 @@ public extern (C)
 
     void x86_add_reg32_int32(X86Machine machine, X86Instruction instruction, X86Register32 dst, Literal imm)
     {
-        dst.memory.u32[0] += imm.value.intValue.value32u;
+        dst.memory.u32[0] += imm.value.value32u;
     }
 }

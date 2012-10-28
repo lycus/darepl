@@ -33,7 +33,7 @@ public extern (C)
     void epiphany_add_reg32_reg32_int8(EpiphanyMachine machine, EpiphanyInstruction instruction,
                                        EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
-        auto simm3 = limitTo(imm.value.intValue.value8u, 3);
+        auto simm3 = limitTo(imm.value.value8u, 3);
 
         // RD = RN + SIMM3
         rd.memory.u32[0] = rn.memory.u32[0] + simm3;
@@ -58,7 +58,7 @@ public extern (C)
     void epiphany_add_reg32_reg32_int16(EpiphanyMachine machine, EpiphanyInstruction instruction,
                                         EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
-        auto simm11 = limitTo(imm.value.intValue.value16u, 11);
+        auto simm11 = limitTo(imm.value.value16u, 11);
 
         // RD = RN + SIMM10
         rd.memory.u32[0] = rn.memory.u32[0] + simm11;
@@ -106,7 +106,7 @@ public extern (C)
     void epiphany_sub_reg32_reg32_int8(EpiphanyMachine machine, EpiphanyInstruction instruction,
                                        EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
-        auto simm3 = limitTo(imm.value.intValue.value8u, 3);
+        auto simm3 = limitTo(imm.value.value8u, 3);
 
         // RD = RN - SIMM3
         rd.memory.u32[0] = rn.memory.u32[0] - simm3;
@@ -131,7 +131,7 @@ public extern (C)
     void epiphany_sub_reg32_reg32_int16(EpiphanyMachine machine, EpiphanyInstruction instruction,
                                         EpiphanyRegister32 rd, EpiphanyRegister32 rn, Literal imm)
     {
-        auto simm11 = limitTo(imm.value.intValue.value16u, 11);
+        auto simm11 = limitTo(imm.value.value16u, 11);
 
         // RD = RN - SIMM10
         rd.memory.u32[0] = rn.memory.u32[0] - simm11;

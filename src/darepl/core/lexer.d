@@ -16,7 +16,7 @@ public enum LiteralType : ubyte
     float64,
 }
 
-public union IntLiteralValue
+public union LiteralValue
 {
     public byte value8s;
     public ubyte value8u;
@@ -26,18 +26,8 @@ public union IntLiteralValue
     public uint value32u;
     public long value64s;
     public ulong value64u;
-}
-
-public union FloatLiteralValue
-{
-    public float value32;
-    public double value64;
-}
-
-public union LiteralValue
-{
-    public IntLiteralValue intValue;
-    public FloatLiteralValue floatValue;
+    public float value32f;
+    public double value64f;
 }
 
 public final class Literal
@@ -514,16 +504,16 @@ public class Lexer
             final switch (type)
             {
                 case LiteralType.int8:
-                    value.intValue.value8u = parse!ubyte(literal, radixNo);
+                    value.value8u = parse!ubyte(literal, radixNo);
                     break;
                 case LiteralType.int16:
-                    value.intValue.value16u = parse!ushort(literal, radixNo);
+                    value.value16u = parse!ushort(literal, radixNo);
                     break;
                 case LiteralType.int32:
-                    value.intValue.value32u = parse!uint(literal, radixNo);
+                    value.value32u = parse!uint(literal, radixNo);
                     break;
                 case LiteralType.int64:
-                    value.intValue.value64u = parse!ulong(literal, radixNo);
+                    value.value64u = parse!ulong(literal, radixNo);
                     break;
                 case LiteralType.float32:
                     uint raw;
@@ -531,10 +521,10 @@ public class Lexer
                     if (!isFloat)
                     {
                         raw = parse!uint(literal, radixNo);
-                        value.floatValue.value32 = *cast(float*)&raw;
+                        value.value32f = *cast(float*)&raw;
                     }
                     else
-                        value.floatValue.value32 = parse!float(literal);
+                        value.value32f = parse!float(literal);
                     break;
                 case LiteralType.float64:
                     ulong raw;
@@ -542,10 +532,10 @@ public class Lexer
                     if (!isFloat)
                     {
                         raw = parse!ulong(literal, radixNo);
-                        value.floatValue.value32 = *cast(double*)&raw;
+                        value.value64f = *cast(double*)&raw;
                     }
                     else
-                        value.floatValue.value32 = parse!double(literal);
+                        value.value64f = parse!double(literal);
                     break;
             }
         }
