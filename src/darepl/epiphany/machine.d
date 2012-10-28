@@ -61,7 +61,7 @@ public final class EpiphanyMachine : Machine
                 return "mem";
             else if (auto sreg = cast(EpiphanySpecialRegister32)operand)
                 return "sreg32";
-            else if (auto reg = cast(EpiphanyRegister)operand)
+            else if (auto reg = cast(EpiphanyRegister32)operand)
                 return "reg32";
             else
                 return to!string((cast(Literal)operand).type);
