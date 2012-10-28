@@ -1,6 +1,7 @@
 module darepl.core.target;
 
 import std.algorithm,
+       std.array,
        std.string,
        darepl.core.common,
        darepl.core.console,
@@ -56,7 +57,7 @@ public abstract class Target
 
                 if (trimmed[0] == '!')
                 {
-                    auto command = trimmed[1 .. $];
+                    auto command = array(splitter(trimmed[1 .. $], ' '))[0];
 
                     switch (toLower(command))
                     {
@@ -70,6 +71,41 @@ public abstract class Target
                             break;
                         case "bits":
                             writef("Emulating bitness: %s", bits);
+                            break;
+                        case "print":
+                        case "p":
+                        case "show":
+                        case "s":
+                            bool any;
+
+                            foreach (elem; splitter(trimmed[1 + command.length .. $], ' '))
+                            {
+                                auto arg = strip(elem);
+
+                                if (!arg.length)
+                                    continue;
+
+                                bool found;
+
+                                foreach (reg; machine.registers)
+                                {
+                                    if (reg.name == arg)
+                                    {
+                                        any = true;
+                                        found = true;
+                                        writef("%-15s %s", arg, reg.stringize());
+
+                                    }
+                                }
+
+                                if (!found)
+                                    write("Unknown register: %s", arg);
+                            }
+
+                            if (!any)
+                                foreach (reg; sort!((a, b) => a.name < b.name)(machine.registers.values))
+                                    writef("%-15s %s", reg.name, reg.stringize());
+
                             break;
                         case "reset":
                             machine.beginMutation();
