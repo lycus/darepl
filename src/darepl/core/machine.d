@@ -155,7 +155,7 @@ private template BitfieldArguments(size_t start, size_t end)
         static if (i > end)
             alias TypeTuple!X InternalBitfieldArguments;
         else
-            alias InternalBitfieldArguments!(start, end, i + 1, TypeTuple!(X, bool, "b" ~ toStringNow!i, 1)) InternalBitfieldArguments;
+            alias InternalBitfieldArguments!(start, end, i + 1, TypeTuple!(X, ubyte, "b" ~ toStringNow!i, 1)) InternalBitfieldArguments;
     }
 
     public alias InternalBitfieldArguments!(start, end, start) BitfieldArguments;
