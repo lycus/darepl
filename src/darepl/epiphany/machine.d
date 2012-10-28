@@ -59,6 +59,8 @@ public final class EpiphanyMachine : Machine
                 return "disp";
             else if (auto expr = cast(EpiphanyExpression)operand)
                 return "mem";
+            else if (auto sreg = cast(EpiphanySpecialRegister32)operand)
+                return "sreg32";
             else if (auto reg = cast(EpiphanyRegister)operand)
                 return "reg32";
             else
@@ -167,29 +169,29 @@ public final class EpiphanyMachine : Machine
         registers[EpiphanyRegisterName.ctimer0] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer0);
         registers[EpiphanyRegisterName.ctimer1] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer1);
 
-        registers[EpiphanyRegisterName.iret] = new EpiphanyRegister32(EpiphanyRegisterName.iret);
-        registers[EpiphanyRegisterName.imask] = new EpiphanyRegister32(EpiphanyRegisterName.imask);
-        auto ilat = registers[EpiphanyRegisterName.ilat] = new EpiphanyRegister32(EpiphanyRegisterName.ilat);
-        registers[EpiphanyRegisterName.ilatst] = new EpiphanyRegister32(EpiphanyRegisterName.ilatst, ilat.memory);
-        registers[EpiphanyRegisterName.ilatcl] = new EpiphanyRegister32(EpiphanyRegisterName.ilatcl, ilat.memory);
-        registers[EpiphanyRegisterName.ipend] = new EpiphanyRegister32(EpiphanyRegisterName.ipend);
+        registers[EpiphanyRegisterName.iret] = new EpiphanySpecialRegister32(EpiphanyRegisterName.iret);
+        registers[EpiphanyRegisterName.imask] = new EpiphanySpecialRegister32(EpiphanyRegisterName.imask);
+        auto ilat = registers[EpiphanyRegisterName.ilat] = new EpiphanySpecialRegister32(EpiphanyRegisterName.ilat);
+        registers[EpiphanyRegisterName.ilatst] = new EpiphanySpecialRegister32(EpiphanyRegisterName.ilatst, ilat.memory);
+        registers[EpiphanyRegisterName.ilatcl] = new EpiphanySpecialRegister32(EpiphanyRegisterName.ilatcl, ilat.memory);
+        registers[EpiphanyRegisterName.ipend] = new EpiphanySpecialRegister32(EpiphanyRegisterName.ipend);
 
         registers[EpiphanyRegisterName.dma0config] = new EpiphanyDMAConfigRegister32(EpiphanyRegisterName.dma0config);
-        registers[EpiphanyRegisterName.dma0count] = new EpiphanyRegister32(EpiphanyRegisterName.dma0count);
-        registers[EpiphanyRegisterName.dma0stride] = new EpiphanyRegister32(EpiphanyRegisterName.dma0stride);
-        registers[EpiphanyRegisterName.dma0srcaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma0srcaddr);
-        registers[EpiphanyRegisterName.dma0dstaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma0dstaddr);
-        registers[EpiphanyRegisterName.dma0auto0] = new EpiphanyRegister32(EpiphanyRegisterName.dma0auto0);
-        registers[EpiphanyRegisterName.dma0auto1] = new EpiphanyRegister32(EpiphanyRegisterName.dma0auto1);
+        registers[EpiphanyRegisterName.dma0count] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma0count);
+        registers[EpiphanyRegisterName.dma0stride] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma0stride);
+        registers[EpiphanyRegisterName.dma0srcaddr] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma0srcaddr);
+        registers[EpiphanyRegisterName.dma0dstaddr] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma0dstaddr);
+        registers[EpiphanyRegisterName.dma0auto0] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma0auto0);
+        registers[EpiphanyRegisterName.dma0auto1] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma0auto1);
         registers[EpiphanyRegisterName.dma0status] = new EpiphanyDMAStatusRegister32(EpiphanyRegisterName.dma0status);
 
         registers[EpiphanyRegisterName.dma1config] = new EpiphanyDMAConfigRegister32(EpiphanyRegisterName.dma1config);
-        registers[EpiphanyRegisterName.dma1count] = new EpiphanyRegister32(EpiphanyRegisterName.dma1count);
-        registers[EpiphanyRegisterName.dma1stride] = new EpiphanyRegister32(EpiphanyRegisterName.dma1stride);
-        registers[EpiphanyRegisterName.dma1srcaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma1srcaddr);
-        registers[EpiphanyRegisterName.dma1dstaddr] = new EpiphanyRegister32(EpiphanyRegisterName.dma1dstaddr);
-        registers[EpiphanyRegisterName.dma1auto0] = new EpiphanyRegister32(EpiphanyRegisterName.dma1auto0);
-        registers[EpiphanyRegisterName.dma1auto1] = new EpiphanyRegister32(EpiphanyRegisterName.dma1auto1);
+        registers[EpiphanyRegisterName.dma1count] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma1count);
+        registers[EpiphanyRegisterName.dma1stride] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma1stride);
+        registers[EpiphanyRegisterName.dma1srcaddr] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma1srcaddr);
+        registers[EpiphanyRegisterName.dma1dstaddr] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma1dstaddr);
+        registers[EpiphanyRegisterName.dma1auto0] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma1auto0);
+        registers[EpiphanyRegisterName.dma1auto1] = new EpiphanySpecialRegister32(EpiphanyRegisterName.dma1auto1);
         registers[EpiphanyRegisterName.dma1status] = new EpiphanyDMAStatusRegister32(EpiphanyRegisterName.dma1status);
     }
 }
@@ -272,7 +274,49 @@ public final class EpiphanyRegister32 : EpiphanyRegister
     }
 }
 
-public final class EpiphanyTimerRegister32 : EpiphanyRegister
+public class EpiphanySpecialRegister32 : EpiphanyRegister
+{
+    private this(EpiphanyRegisterName name) nothrow
+    {
+        super(name);
+    }
+
+    private this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    in
+    {
+        assert(memory);
+    }
+    body
+    {
+        super(name, memory);
+    }
+
+    private this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    {
+        super(name, memory);
+    }
+
+    public override EpiphanySpecialRegister32 snapshot() nothrow
+    {
+        return new EpiphanySpecialRegister32(register, *memory);
+    }
+
+    public override string stringize()
+    {
+        auto u32 = memory.u32[0];
+        auto s32 = memory.s32[0];
+
+        return format("0b%s / 0o%s / %s (%s) / 0x%s / %s",
+                      toImpl!string(u32, 2),
+                      toImpl!string(u32, 8),
+                      u32,
+                      s32,
+                      toImpl!string(u32, 16),
+                      memory.f32[0]);
+    }
+}
+
+public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
 {
     public this(EpiphanyRegisterName name) nothrow
     in
@@ -316,7 +360,7 @@ public final class EpiphanyTimerRegister32 : EpiphanyRegister
     }
 }
 
-public final class EpiphanyConfigRegister32 : EpiphanyRegister
+public final class EpiphanyConfigRegister32 : EpiphanySpecialRegister32
 {
     public this() nothrow
     {
@@ -367,7 +411,7 @@ public final class EpiphanyConfigRegister32 : EpiphanyRegister
     }
 }
 
-public final class EpiphanyStatusRegister32 : EpiphanyRegister
+public final class EpiphanyStatusRegister32 : EpiphanySpecialRegister32
 {
     public this() nothrow
     {
@@ -419,7 +463,7 @@ public final class EpiphanyStatusRegister32 : EpiphanyRegister
     }
 }
 
-public final class EpiphanyDMAConfigRegister32 : EpiphanyRegister
+public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
 {
     public this(EpiphanyRegisterName name) nothrow
     in
@@ -489,7 +533,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanyRegister
     }
 }
 
-public final class EpiphanyDMAStatusRegister32 : EpiphanyRegister
+public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
 {
     public this(EpiphanyRegisterName name) nothrow
     in
