@@ -37,13 +37,15 @@ public abstract class Target
 
         while (true)
         {
-            auto line = read(architecture, bits);
+            auto str = read(architecture, bits);
 
-            if (!line)
+            if (str.isNull)
             {
                 writef("Exiting...");
                 return true;
             }
+
+            auto line = str.get;
 
             foreach (stmt; splitter(line, ';'))
             {

@@ -79,6 +79,7 @@ def configure(conf):
         conf.fatal('--lp64 must be either true or false.')
 
     conf.env.LIB_FFI = ['ffi']
+    conf.env.LIB_EDIT = ['edit']
 
     if not Utils.unversioned_sys_platform().lower().endswith('bsd'):
         conf.env.LIB_DL = ['dl']
@@ -123,7 +124,8 @@ def build(bld):
             'darepl.arm',
             'darepl.core',
             'ffi-d',
-            'FFI']
+            'FFI',
+            'EDIT']
 
     if not Utils.unversioned_sys_platform().lower().endswith('bsd'):
         deps += ['DL']

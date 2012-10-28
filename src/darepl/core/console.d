@@ -1,7 +1,12 @@
 module darepl.core.console;
 
-import std.stdio,
-       darepl.core.common;
+import core.stdc.stdlib,
+       std.conv,
+       std.stdio,
+       std.string,
+       std.typecons,
+       darepl.core.common,
+       darepl.core.edit;
 
 public void write(T ...)(T args)
 {
@@ -18,9 +23,22 @@ body
     writefln(args);
 }
 
-public string read(Architecture arch, ubyte bits)
+public Nullable!string read(Architecture arch, ubyte bits)
 {
-    std.stdio.writef("%s-%s> ", arch, bits);
+    auto line = readline(toStringz(xformat("%s-%s> ", arch, bits)));
 
-    return readln();
+    scope (exit)
+        free(line);
+
+    // Did we get EOF?
+    if (!line)
+        return Nullable!string();
+
+    auto str = to!string(line); // Note that this creates a GC copy of line.
+
+    // If the line is not white space, add it to history.
+    if (strip(str).length)
+        add_history(line);
+
+    return Nullable!string(str);
 }

@@ -7,6 +7,7 @@ import core.memory,
        std.traits,
        darepl.core.common,
        darepl.core.console,
+       darepl.core.edit,
        darepl.arm.target,
        darepl.core.target,
        darepl.epiphany.target,
@@ -116,6 +117,9 @@ body
         writef("The architecture %s doesn't support bitness: %s", arch, bits);
         return 2;
     }
+
+    // Tab completion of files doesn't really make sense for us.
+    rl_bind_key('\t', &rl_insert);
 
     return target.run(bits) ? 0 : 1;
 }
