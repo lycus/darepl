@@ -37,13 +37,6 @@ version (unittest)
         return cast(EpiphanyRegister)machine.registers[mixin("EpiphanyRegisterName." ~ register)];
     }
 
-    private Literal s8(byte value)
-    {
-        LiteralValue val;
-        val.value8s = value;
-        return new Literal(LiteralType.int8, val);
-    }
-
     private Literal u8(ubyte value)
     {
         LiteralValue val;
@@ -51,25 +44,11 @@ version (unittest)
         return new Literal(LiteralType.int8, val);
     }
 
-    private Literal s16(short value)
-    {
-        LiteralValue val;
-        val.value16s = value;
-        return new Literal(LiteralType.int16, val);
-    }
-
     private Literal u16(ushort value)
     {
         LiteralValue val;
         val.value16u = value;
         return new Literal(LiteralType.int16, val);
-    }
-
-    private Literal s32(int value)
-    {
-        LiteralValue val;
-        val.value32s = value;
-        return new Literal(LiteralType.int32, val);
     }
 
     private Literal u32(uint value)
@@ -141,4 +120,15 @@ unittest
 
     assert(mach.reg!"r0"().memory.u32[0] == 6);
     assert(mach.status.memory.bits.b7);
+}
+
+unittest
+{
+    auto mach = machine();
+
+    mach.run!"mov"(mach.reg!"r0"(), u8(0));
+    mach.run!"sub"(mach.reg!"r0"(), mach.reg!"r0"(), u8(7));
+
+    assert(mach.reg!"r0"().memory.s32[0] == -7);
+    assert(mach.status.memory.bits.b5);
 }
