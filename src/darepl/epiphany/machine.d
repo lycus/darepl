@@ -373,7 +373,7 @@ public final class EpiphanyStatusRegister32 : EpiphanyRegister
     {
         auto u32 = memory.u32[0];
 
-        return format("0b%s (ACTIVE: %s GID: %s: AZ: %s AN: %s AC: %s AV: %s BZ: %s BN: %s BV: %s AVS: %s BIS: %s BVS: %s BUS: %s EXCAUSE: %s%s%s)",
+        return format("0b%s (ACTIVE: %s GID: %s AZ: %s AN: %s AC: %s AV: %s BZ: %s BN: %s BV: %s AVS: %s BIS: %s BVS: %s BUS: %s EXCAUSE: %s%s%s)",
                       toImpl!string(u32, 2),
                       memory.bits.b0,
                       memory.bits.b1,
@@ -436,7 +436,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanyRegister
     {
         auto u32 = memory.u32[0];
 
-        return format("0b%s (DMAEN: %s MASTER: %s CHAINMODE: %s STARTUP: %s IRQEN: %s DATASIZE: %s%s NEXT_PTR: %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s)",
+        return format("0b%s (DMAEN: %s MASTER: %s CHAINMODE: %s STARTUP: %s IRQEN: %s DATASIZE: %s%s NEXT_PTR: %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s)",
                       toImpl!string(u32, 2),
                       memory.bits.b0,
                       memory.bits.b1,
@@ -506,7 +506,7 @@ public final class EpiphanyDMAStatusRegister32 : EpiphanyRegister
     {
         auto u32 = memory.u32[0];
 
-        return format("0b%s (DMASTATE: %s%s%s%s CURR_PTR: %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s)",
+        return format("0b%s (DMASTATE: %s%s%s%s CURR_PTR: %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s)",
                       toImpl!string(u32, 2),
                       memory.bits.b0,
                       memory.bits.b1,
