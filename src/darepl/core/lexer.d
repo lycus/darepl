@@ -442,12 +442,6 @@ public class Lexer
             }
         }
 
-        if (moveNext() != '/')
-        {
-            write("Expected <literal>/<type> expression.");
-            return null;
-        }
-
         auto typeStr = [moveNext(), moveNext()];
         LiteralType type;
 
