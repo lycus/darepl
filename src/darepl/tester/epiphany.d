@@ -86,7 +86,15 @@ unittest
 
     mach.run!"mov"(mach.reg!"r0"(), u8(100));
 
-    assert(mach.reg!"r0"().memory.u8[0] == 100);
-    assert(mach.reg!"r0"().memory.u16[0] == 100);
     assert(mach.reg!"r0"().memory.u32[0] == 100);
+}
+
+unittest
+{
+    auto mach = machine();
+
+    mach.run!"mov"(mach.reg!"r0"(), u8(100));
+    mach.run!"add"(mach.reg!"r0"(), mach.reg!"r0"(), mach.reg!"r0"());
+
+    assert(mach.reg!"r0"().memory.u32[0] == 200);
 }
