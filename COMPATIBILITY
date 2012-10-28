@@ -22,6 +22,9 @@ that the REPL actually supports emulation for is:
     * Itanium (64-bit)
     * MIPS (32-bit and 64-bit)
 
+Do note, though, that the host architecture DAREPL is running on must
+be using little endian word order.
+
 Only POSIX operating systems are supported.
 
 Python 2.7+ is needed to run the project's build scripts.
