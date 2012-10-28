@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import os
-from waflib import Utils
+import os, subprocess
+from waflib import Build, Utils
 
 APPNAME = 'DAREPL'
 VERSION = '1.0'
@@ -12,8 +12,13 @@ OUT = 'build'
 def options(opt):
     opt.recurse('libffi-d')
 
+    opt.add_option('--valgrind', action = 'store', default = 'false', help = 'use Valgrind for unit tests')
+
 def configure(conf):
     conf.recurse('libffi-d')
+
+    if conf.options.valgrind != 'true' and conf.options.valgrind != 'false':
+        conf.fatal('--valgrind must be either true or false.')
 
     def add_option(option, flags = 'DFLAGS'):
         if option not in conf.env[flags]:
@@ -130,7 +135,51 @@ def build(bld):
     if not Utils.unversioned_sys_platform().lower().endswith('bsd'):
         deps += ['DL']
 
+    if bld.env.COMPILER_D == 'dmd':
+        unittest = '-unittest'
+    elif bld.env.COMPILER_D == 'gdc':
+        unittest = '-funittest'
+    elif bld.env.COMPILER_D == 'ldc2':
+        unittest = '-unittest'
+    else:
+        bld.fatal('Unsupported D compiler.')
+
+    program('tester', 'darepl.tester', deps, unittest, None)
     program('cli', 'darepl', deps)
+
+def _run_shell(dir, ctx, args):
+    cwd = os.getcwd()
+    os.chdir(dir)
+
+    code = subprocess.Popen(args, shell = True).wait()
+
+    if code != 0:
+        ctx.fatal(str(args) + ' exited with: ' + str(code))
+
+    os.chdir(cwd)
+
+def unittest(ctx):
+    '''runs the unit test suite'''
+
+    if ctx.env.VALGRIND == 'true':
+        cmd = 'valgrind'
+        cmd += ' --suppressions=' + os.path.join(os.pardir, 'darepl.valgrind')
+        cmd += ' --leak-check=full'
+        cmd += ' --track-fds=yes'
+        cmd += ' --num-callers=50'
+        cmd += ' --show-reachable=yes'
+        cmd += ' --undef-value-errors=no'
+        cmd += ' --error-exitcode=1'
+        cmd += ' --gen-suppressions=all'
+        cmd += ' ' + os.path.join(os.curdir, 'darepl.tester')
+
+        _run_shell(OUT, ctx, cmd)
+    else:
+        _run_shell(OUT, ctx, './darepl.tester')
+
+class UnitTestContext(Build.BuildContext):
+    cmd = 'unittest'
+    fun = 'unittest'
 
 def dist(dst):
     '''makes a tarball for redistributing the sources'''

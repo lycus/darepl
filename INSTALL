@@ -25,6 +25,8 @@ The DAREPL Waf script also supports some additional options:
         all optimizations, while "release" enables optimization and
         inlining. Note that both modes will generate debug information
         and emit array bounds checks.
+    * --valgrind (= "false")
+      - Whether to run the unit test suite with Valgrind.
 
 For example, to build for a 32-bit CPU, do:
 
@@ -51,3 +53,8 @@ Should you wish to uninstall the installed files at a later point,
 simply execute:
 
     $ ./waf uninstall
+
+Finally, you can run the test suite to ensure everything is working
+as it should:
+
+    $ ./waf unittest
