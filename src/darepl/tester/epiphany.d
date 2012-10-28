@@ -14,17 +14,22 @@ version (unittest)
         return new EpiphanyMachine(new EpiphanyTarget(), 32, false);
     }
 
-    private void run(string opCode)(EpiphanyMachine machine,
-                                    EpiphanyOperand operand1 = EpiphanyOperand.init,
-                                    EpiphanyOperand operand2 = EpiphanyOperand.init,
-                                    EpiphanyOperand operand3 = EpiphanyOperand.init)
+    private void run(string opCode, T ...)(EpiphanyMachine machine, T operands)
     {
-        assert(machine.dispatch(new EpiphanyInstruction(mixin("EpiphanyOpCodeName." ~ opCode), operand1, operand2, operand3)));
-    }
+        EpiphanyOperand op1;
+        EpiphanyOperand op2;
+        EpiphanyOperand op3;
 
-    private EpiphanyOperand arg(T)(T argument)
-    {
-        return EpiphanyOperand(argument);
+        static if (operands.length >= 1)
+            op1 = operands[0];
+
+        static if (operands.length >= 2)
+            op2 = operands[1];
+
+        static if (operands.length >= 3)
+            op3 = operands[2];
+
+        assert(machine.dispatch(new EpiphanyInstruction(mixin("EpiphanyOpCodeName." ~ opCode), op1, op2, op3)));
     }
 
     private EpiphanyRegister reg(string register)(EpiphanyMachine machine)
@@ -79,8 +84,7 @@ unittest
 {
     auto mach = machine();
 
-    mach.run!"mov"(arg(mach.reg!"r0"()),
-                   arg(u8(100)));
+    mach.run!"mov"(mach.reg!"r0"(), u8(100));
 
     assert(mach.reg!"r0"().memory.u8[0] == 100);
     assert(mach.reg!"r0"().memory.u16[0] == 100);
