@@ -98,3 +98,25 @@ unittest
 
     assert(mach.reg!"r0"().memory.u32[0] == 200);
 }
+
+unittest
+{
+    auto mach = machine();
+
+    mach.run!"mov"(mach.reg!"r0"(), u8(0));
+    mach.run!"sub"(mach.reg!"r0"(), mach.reg!"r0"(), u8(5));
+
+    assert(mach.reg!"r0"().memory.s32[0] == -5);
+    assert(mach.status.memory.bits.b5);
+}
+
+unittest
+{
+    auto mach = machine();
+
+    mach.run!"mov"(mach.reg!"r0"(), u8(0));
+    mach.run!"add"(mach.reg!"r0"(), mach.reg!"r0"(), mach.reg!"r0"());
+
+    assert(mach.reg!"r0"().memory.u32[0] == 0);
+    assert(mach.status.memory.bits.b4);
+}
