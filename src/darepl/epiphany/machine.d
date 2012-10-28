@@ -9,7 +9,8 @@ import std.conv,
        darepl.epiphany.expressions,
        darepl.epiphany.instructions,
        darepl.epiphany.target,
-       darepl.epiphany.emulation.arithmetic;
+       darepl.epiphany.emulation.arithmetic,
+       darepl.epiphany.emulation.misc;
 
 public final class EpiphanyMachine : Machine
 {
