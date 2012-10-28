@@ -18,7 +18,7 @@ public final class X86Machine : Machine
     private X86RegisterFlags64 _rflags;
     private X86RegisterFloatFlags32 _mxcsr;
 
-    public this(X86Target target, ubyte bits) pure nothrow
+    public this(X86Target target, ubyte bits, bool interactive) pure nothrow
     in
     {
         assert(target);
@@ -26,7 +26,7 @@ public final class X86Machine : Machine
     }
     body
     {
-        super(target, bits);
+        super(target, bits, interactive);
     }
 
     @property public X86RegisterFlags32 eflags() pure nothrow

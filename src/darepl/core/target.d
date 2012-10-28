@@ -15,7 +15,7 @@ public abstract class Target
 
     @property public abstract ubyte[] supportedBits() pure nothrow;
 
-    public abstract bool run(ubyte bits);
+    public abstract bool run(ubyte bits, bool interactive);
 
     protected Lexer createLexer(string input) pure nothrow
     {

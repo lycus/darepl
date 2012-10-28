@@ -26,9 +26,9 @@ public final class EpiphanyTarget : Target
         return new EpiphanyParser(cast(EpiphanyMachine)machine, tokens);
     }
 
-    public override bool run(ubyte bits)
+    public override bool run(ubyte bits, bool interactive)
     {
-        return repl(new EpiphanyMachine(this, bits), bits);
+        return repl(new EpiphanyMachine(this, bits, interactive), bits);
     }
 
     protected override bool handleInstruction(Machine machine, Instruction instruction)

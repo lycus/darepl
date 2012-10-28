@@ -121,7 +121,7 @@ body
     // Tab completion of files doesn't really make sense for us.
     rl_bind_key('\t', &rl_insert);
 
-    return target.run(bits) ? 0 : 1;
+    return target.run(bits, true) ? 0 : 1;
 }
 
 private void usage(string cli)

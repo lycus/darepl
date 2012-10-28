@@ -24,7 +24,7 @@ public final class IA64Target : Target
         assert(false);
     }
 
-    public override bool run(ubyte bits)
+    public override bool run(ubyte bits, bool interactive)
     {
         return repl(null, bits);
     }

@@ -38,7 +38,7 @@ public final class EpiphanyMachine : Machine
         return _status;
     }
 
-    public this(EpiphanyTarget target, ubyte bits) pure nothrow
+    public this(EpiphanyTarget target, ubyte bits, bool interactive) pure nothrow
     in
     {
         assert(target);
@@ -46,7 +46,7 @@ public final class EpiphanyMachine : Machine
     }
     body
     {
-        super(target, bits);
+        super(target, bits, interactive);
     }
 
     protected override string createDispatchString(Instruction instruction)

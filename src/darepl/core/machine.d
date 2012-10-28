@@ -18,6 +18,7 @@ public abstract class Machine
 {
     private Target _target;
     private ubyte _bits;
+    private bool _interactive;
     private Register[ushort] _registers;
     private Register[] _snapshot;
 
@@ -26,7 +27,7 @@ public abstract class Machine
         assert(_target);
     }
 
-    protected this(Target target, ubyte bits) pure nothrow
+    protected this(Target target, ubyte bits, bool interactive) pure nothrow
     in
     {
         assert(target);
@@ -35,6 +36,7 @@ public abstract class Machine
     {
         _target = target;
         _bits = bits;
+        _interactive = interactive;
 
         initializeRegisters(bits);
     }
@@ -52,6 +54,11 @@ public abstract class Machine
     @property public final ubyte bits() pure nothrow
     {
         return _bits;
+    }
+
+    @property public final bool interactive() pure nothrow
+    {
+        return _interactive;
     }
 
     @property public final ref Register[ushort] registers() pure nothrow
@@ -85,7 +92,9 @@ public abstract class Machine
 
         if (!proc)
         {
-            writef("Could not open handle to the current process: %s", to!string(dlerror()));
+            if (_interactive)
+                writef("Could not open handle to the current process: %s", to!string(dlerror()));
+
             return false;
         }
 
@@ -96,7 +105,9 @@ public abstract class Machine
 
         if (auto error = dlerror())
         {
-            writef("Could not dispatch instruction (function %s): %s", str, to!string(error));
+            if (_interactive)
+                writef("Could not dispatch instruction (function %s): %s", str, to!string(error));
+
             return false;
         }
 
@@ -135,6 +146,9 @@ public abstract class Machine
                 changed[pre] = post;
 
         if (!changed.length)
+            return;
+
+        if (!_interactive)
             return;
 
         foreach (pre, post; changed)

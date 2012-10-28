@@ -1,6 +1,7 @@
 module darepl.tester.main;
 
-import std.stdio;
+import std.stdio,
+       darepl.tester.epiphany;
 
 private int main()
 {
