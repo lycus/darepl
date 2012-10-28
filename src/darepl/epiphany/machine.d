@@ -14,6 +14,29 @@ import std.conv,
 
 public final class EpiphanyMachine : Machine
 {
+    private EpiphanyConfigRegister32 _config;
+    private EpiphanyStatusRegister32 _status;
+
+    @property public EpiphanyConfigRegister32 config()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return _config;
+    }
+
+    @property public EpiphanyStatusRegister32 status()
+    out (result)
+    {
+        assert(result);
+    }
+    body
+    {
+        return _status;
+    }
+
     public this(EpiphanyTarget target, ubyte bits) pure nothrow
     in
     {
@@ -137,8 +160,8 @@ public final class EpiphanyMachine : Machine
         registers[EpiphanyRegisterName.sp] = new EpiphanyRegister32(EpiphanyRegisterName.sp, r13.memory);
         registers[EpiphanyRegisterName.lr] = new EpiphanyRegister32(EpiphanyRegisterName.lr, r14.memory);
 
-        registers[EpiphanyRegisterName.config] = new EpiphanyConfigRegister32();
-        registers[EpiphanyRegisterName.status] = new EpiphanyStatusRegister32();
+        registers[EpiphanyRegisterName.config] = _config = new EpiphanyConfigRegister32();
+        registers[EpiphanyRegisterName.status] = _status = new EpiphanyStatusRegister32();
 
         registers[EpiphanyRegisterName.ctimer0] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer0);
         registers[EpiphanyRegisterName.ctimer1] = new EpiphanyTimerRegister32(EpiphanyRegisterName.ctimer1);
