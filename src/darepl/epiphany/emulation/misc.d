@@ -30,4 +30,18 @@ public extern (C)
         // RD = RD[15:0] | (IMM16 << 16)
         rd.memory.u32[0] = rd.memory.u16[0] | (imm16.value.value16u << 16);
     }
+
+    void epiphany_movfs_reg32_sreg32(EpiphanyMachine machine, EpiphanyInstruction instruction,
+                                     EpiphanyRegister32 rd, EpiphanySpecialRegister32 special)
+    {
+        // RD = SPECIAL
+        rd.memory.u32[0] = special.memory.u32[0];
+    }
+
+    void epiphany_movts_sreg32_reg32(EpiphanyMachine machine, EpiphanyInstruction instruction,
+                                     EpiphanySpecialRegister32 special, EpiphanyRegister32 rn)
+    {
+        // SPECIAL = RN
+        special.memory.u32[0] = rn.memory.u32[0];
+    }
 }
