@@ -27,7 +27,7 @@ public abstract class Machine
         assert(_target);
     }
 
-    protected this(Target target, ubyte bits, bool interactive) pure nothrow
+    protected this(Target target, ubyte bits, bool interactive) pure
     in
     {
         assert(target);
@@ -158,7 +158,7 @@ public abstract class Machine
         }
     }
 
-    protected abstract void initializeRegisters(ubyte bits) pure nothrow;
+    protected abstract void initializeRegisters(ubyte bits) pure;
 
     protected abstract string createDispatchString(Instruction instruction);
 }
@@ -270,7 +270,7 @@ public abstract class Register
         return _name;
     }
 
-    public abstract Register snapshot() pure nothrow;
+    public abstract Register snapshot() pure;
 
     public abstract string stringize();
 }

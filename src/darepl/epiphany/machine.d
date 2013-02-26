@@ -38,7 +38,7 @@ public final class EpiphanyMachine : Machine
         return _status;
     }
 
-    public this(EpiphanyTarget target, ubyte bits, bool interactive) pure nothrow
+    public this(EpiphanyTarget target, ubyte bits, bool interactive) pure
     in
     {
         assert(target);
@@ -76,7 +76,7 @@ public final class EpiphanyMachine : Machine
         return name;
     }
 
-    protected override void initializeRegisters(ubyte bits) pure nothrow
+    protected override void initializeRegisters(ubyte bits) pure
     {
         auto r0 = registers[EpiphanyRegisterName.r0] = new EpiphanyRegister32(EpiphanyRegisterName.r0);
         auto r1 = registers[EpiphanyRegisterName.r1] = new EpiphanyRegister32(EpiphanyRegisterName.r1);
@@ -200,14 +200,14 @@ public abstract class EpiphanyRegister : Register
 {
     private EpiphanyRegisterName _register;
 
-    private this(EpiphanyRegisterName name) nothrow
+    private this(EpiphanyRegisterName name)
     {
         super(to!string(name));
 
         _register = name;
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    private this(EpiphanyRegisterName name, RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -219,7 +219,7 @@ public abstract class EpiphanyRegister : Register
         _register = name;
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    private this(EpiphanyRegisterName name, RegisterMemory memory)
     {
         super(to!string(name), memory);
 
@@ -234,12 +234,12 @@ public abstract class EpiphanyRegister : Register
 
 public final class EpiphanyRegister32 : EpiphanyRegister
 {
-    private this(EpiphanyRegisterName name) nothrow
+    private this(EpiphanyRegisterName name)
     {
         super(name);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    private this(EpiphanyRegisterName name, RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -249,12 +249,12 @@ public final class EpiphanyRegister32 : EpiphanyRegister
         super(name, memory);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    private this(EpiphanyRegisterName name, RegisterMemory memory)
     {
         super(name, memory);
     }
 
-    public override EpiphanyRegister32 snapshot() nothrow
+    public override EpiphanyRegister32 snapshot()
     {
         return new EpiphanyRegister32(register, *memory);
     }
@@ -276,12 +276,12 @@ public final class EpiphanyRegister32 : EpiphanyRegister
 
 public class EpiphanySpecialRegister32 : EpiphanyRegister
 {
-    private this(EpiphanyRegisterName name) nothrow
+    private this(EpiphanyRegisterName name)
     {
         super(name);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    private this(EpiphanyRegisterName name, RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -291,12 +291,12 @@ public class EpiphanySpecialRegister32 : EpiphanyRegister
         super(name, memory);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    private this(EpiphanyRegisterName name, RegisterMemory memory)
     {
         super(name, memory);
     }
 
-    public override EpiphanySpecialRegister32 snapshot() nothrow
+    public override EpiphanySpecialRegister32 snapshot()
     {
         return new EpiphanySpecialRegister32(register, *memory);
     }
@@ -318,7 +318,7 @@ public class EpiphanySpecialRegister32 : EpiphanyRegister
 
 public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
 {
-    public this(EpiphanyRegisterName name) nothrow
+    public this(EpiphanyRegisterName name)
     in
     {
         assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
@@ -328,7 +328,7 @@ public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
         super(name);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    public this(EpiphanyRegisterName name, RegisterMemory* memory)
     in
     {
         assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
@@ -339,7 +339,7 @@ public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    public this(EpiphanyRegisterName name, RegisterMemory memory)
     in
     {
         assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
@@ -349,7 +349,7 @@ public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public override EpiphanyTimerRegister32 snapshot() nothrow
+    public override EpiphanyTimerRegister32 snapshot()
     {
         return new EpiphanyTimerRegister32(register, *memory);
     }
@@ -362,12 +362,12 @@ public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyConfigRegister32 : EpiphanySpecialRegister32
 {
-    public this() nothrow
+    public this()
     {
         super(EpiphanyRegisterName.config);
     }
 
-    public this(RegisterMemory* memory) nothrow
+    public this(RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -377,12 +377,12 @@ public final class EpiphanyConfigRegister32 : EpiphanySpecialRegister32
         super(EpiphanyRegisterName.config, memory);
     }
 
-    public this(RegisterMemory memory) nothrow
+    public this(RegisterMemory memory)
     {
         super(EpiphanyRegisterName.config, memory);
     }
 
-    public override EpiphanyConfigRegister32 snapshot() nothrow
+    public override EpiphanyConfigRegister32 snapshot()
     {
         return new EpiphanyConfigRegister32(*memory);
     }
@@ -413,12 +413,12 @@ public final class EpiphanyConfigRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyStatusRegister32 : EpiphanySpecialRegister32
 {
-    public this() nothrow
+    public this()
     {
         super(EpiphanyRegisterName.status);
     }
 
-    public this(RegisterMemory* memory) nothrow
+    public this(RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -428,12 +428,12 @@ public final class EpiphanyStatusRegister32 : EpiphanySpecialRegister32
         super(EpiphanyRegisterName.status, memory);
     }
 
-    public this(RegisterMemory memory) nothrow
+    public this(RegisterMemory memory)
     {
         super(EpiphanyRegisterName.status, memory);
     }
 
-    public override EpiphanyStatusRegister32 snapshot() nothrow
+    public override EpiphanyStatusRegister32 snapshot()
     {
         return new EpiphanyStatusRegister32(*memory);
     }
@@ -465,7 +465,7 @@ public final class EpiphanyStatusRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
 {
-    public this(EpiphanyRegisterName name) nothrow
+    public this(EpiphanyRegisterName name)
     in
     {
         assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
@@ -475,7 +475,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
         super(name);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    public this(EpiphanyRegisterName name, RegisterMemory* memory)
     in
     {
         assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
@@ -486,7 +486,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    public this(EpiphanyRegisterName name, RegisterMemory memory)
     in
     {
         assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
@@ -496,7 +496,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public override EpiphanyDMAConfigRegister32 snapshot() nothrow
+    public override EpiphanyDMAConfigRegister32 snapshot()
     {
         return new EpiphanyDMAConfigRegister32(register, *memory);
     }
@@ -535,7 +535,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
 {
-    public this(EpiphanyRegisterName name) nothrow
+    public this(EpiphanyRegisterName name)
     in
     {
         assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
@@ -545,7 +545,7 @@ public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
         super(name);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory* memory) nothrow
+    public this(EpiphanyRegisterName name, RegisterMemory* memory)
     in
     {
         assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
@@ -556,7 +556,7 @@ public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory memory) nothrow
+    public this(EpiphanyRegisterName name, RegisterMemory memory)
     in
     {
         assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
@@ -566,7 +566,7 @@ public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public override EpiphanyDMAStatusRegister32 snapshot() nothrow
+    public override EpiphanyDMAStatusRegister32 snapshot()
     {
         return new EpiphanyDMAStatusRegister32(register, *memory);
     }

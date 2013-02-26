@@ -18,7 +18,7 @@ public final class X86Instruction : Instruction
     private X86Operand _operand2;
     private X86Operand _operand3;
 
-    public this(X86PrefixName prefix, X86OpCodeName opCode, X86Operand operand1, X86Operand operand2, X86Operand operand3) nothrow
+    public this(X86PrefixName prefix, X86OpCodeName opCode, X86Operand operand1, X86Operand operand2, X86Operand operand3)
     {
         _prefix = prefix;
         _opCode = opCode;

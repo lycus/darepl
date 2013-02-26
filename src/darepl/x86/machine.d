@@ -18,7 +18,7 @@ public final class X86Machine : Machine
     private X86RegisterFlags64 _rflags;
     private X86RegisterFloatFlags32 _mxcsr;
 
-    public this(X86Target target, ubyte bits, bool interactive) pure nothrow
+    public this(X86Target target, ubyte bits, bool interactive) pure
     in
     {
         assert(target);
@@ -87,7 +87,7 @@ public final class X86Machine : Machine
         return name;
     }
 
-    protected override void initializeRegisters(ubyte bits) pure nothrow
+    protected override void initializeRegisters(ubyte bits) pure
     {
         registers[X86RegisterName.eflags] = _eflags = new X86RegisterFlags32();
 
@@ -131,14 +131,14 @@ public abstract class X86Register : Register
 {
     private X86RegisterName _register;
 
-    protected this(X86RegisterName name) nothrow
+    protected this(X86RegisterName name)
     {
         super(to!string(name));
 
         _register = name;
     }
 
-    protected this(X86RegisterName name, RegisterMemory* memory) nothrow
+    protected this(X86RegisterName name, RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -150,7 +150,7 @@ public abstract class X86Register : Register
         _register = name;
     }
 
-    protected this(X86RegisterName name, RegisterMemory memory) nothrow
+    protected this(X86RegisterName name, RegisterMemory memory)
     {
         super(to!string(name), memory);
 
@@ -167,12 +167,12 @@ public abstract class X86Register : Register
 
 public final class X86Register32 : X86Register
 {
-    public this(X86RegisterName name) nothrow
+    public this(X86RegisterName name)
     {
         super(name);
     }
 
-    public this(X86RegisterName name, RegisterMemory* memory) nothrow
+    public this(X86RegisterName name, RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -182,12 +182,12 @@ public final class X86Register32 : X86Register
         super(name, memory);
     }
 
-    public this(X86RegisterName name, RegisterMemory memory) nothrow
+    public this(X86RegisterName name, RegisterMemory memory)
     {
         super(name, memory);
     }
 
-    public override X86Register32 snapshot() nothrow
+    public override X86Register32 snapshot()
     {
         return new X86Register32(register, *memory);
     }
@@ -213,12 +213,12 @@ public final class X86Register32 : X86Register
 
 public final class X86RegisterFlags32 : X86Register
 {
-    public this() nothrow
+    public this()
     {
         super(X86RegisterName.eflags);
     }
 
-    public this(RegisterMemory* memory) nothrow
+    public this(RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -228,12 +228,12 @@ public final class X86RegisterFlags32 : X86Register
         super(X86RegisterName.eflags, memory);
     }
 
-    public this(RegisterMemory memory) nothrow
+    public this(RegisterMemory memory)
     {
         super(X86RegisterName.eflags, memory);
     }
 
-    public override X86RegisterFlags32 snapshot() pure nothrow
+    public override X86RegisterFlags32 snapshot() pure
     {
         return new X86RegisterFlags32(*memory);
     }
@@ -272,12 +272,12 @@ public final class X86RegisterFlags32 : X86Register
 
 public final class X86Register64 : X86Register
 {
-    protected this(X86RegisterName name) nothrow
+    protected this(X86RegisterName name)
     {
         super(name);
     }
 
-    protected this(X86RegisterName name, RegisterMemory* memory) nothrow
+    protected this(X86RegisterName name, RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -287,12 +287,12 @@ public final class X86Register64 : X86Register
         super(name, memory);
     }
 
-    public this(X86RegisterName name, RegisterMemory memory) nothrow
+    public this(X86RegisterName name, RegisterMemory memory)
     {
         super(name, memory);
     }
 
-    public override X86Register64 snapshot() pure nothrow
+    public override X86Register64 snapshot() pure
     {
         return new X86Register64(register, *memory);
     }
@@ -318,12 +318,12 @@ public final class X86Register64 : X86Register
 
 public final class X86RegisterFlags64 : X86Register
 {
-    public this() nothrow
+    public this()
     {
         super(X86RegisterName.rflags);
     }
 
-    public this(RegisterMemory* memory) nothrow
+    public this(RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -333,12 +333,12 @@ public final class X86RegisterFlags64 : X86Register
         super(X86RegisterName.rflags, memory);
     }
 
-    public this(RegisterMemory memory) nothrow
+    public this(RegisterMemory memory)
     {
         super(X86RegisterName.rflags, memory);
     }
 
-    public override X86RegisterFlags64 snapshot() pure nothrow
+    public override X86RegisterFlags64 snapshot() pure
     {
         return new X86RegisterFlags64(*memory);
     }
@@ -377,12 +377,12 @@ public final class X86RegisterFlags64 : X86Register
 
 public final class X86RegisterFloatFlags32 : X86Register
 {
-    public this() nothrow
+    public this()
     {
         super(X86RegisterName.mxcsr);
     }
 
-    public this(RegisterMemory* memory) nothrow
+    public this(RegisterMemory* memory)
     in
     {
         assert(memory);
@@ -392,12 +392,12 @@ public final class X86RegisterFloatFlags32 : X86Register
         super(X86RegisterName.mxcsr, memory);
     }
 
-    public this(RegisterMemory memory) nothrow
+    public this(RegisterMemory memory)
     {
         super(X86RegisterName.mxcsr, memory);
     }
 
-    public override X86RegisterFloatFlags32 snapshot() pure nothrow
+    public override X86RegisterFloatFlags32 snapshot() pure
     {
         return new X86RegisterFloatFlags32(*memory);
     }
