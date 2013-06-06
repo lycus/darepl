@@ -44,7 +44,7 @@ body
     }
 
     write("D Architecture REPL (DAREPL) 1.0");
-    write("Copyright (c) 2012 The Lycus Foundation - http://lycus.org");
+    write("Copyright (c) 2013 The Lycus Foundation - http://lycus.org");
     write("Available under the terms of the MIT License");
     write();
 
