@@ -200,14 +200,14 @@ public abstract class EpiphanyRegister : Register
 {
     private EpiphanyRegisterName _register;
 
-    private this(EpiphanyRegisterName name)
+    private this(EpiphanyRegisterName name) pure
     {
         super(to!string(name));
 
         _register = name;
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory* memory)
+    private this(EpiphanyRegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -219,7 +219,7 @@ public abstract class EpiphanyRegister : Register
         _register = name;
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory memory)
+    private this(EpiphanyRegisterName name, RegisterMemory memory) pure
     {
         super(to!string(name), memory);
 
@@ -234,12 +234,12 @@ public abstract class EpiphanyRegister : Register
 
 public final class EpiphanyRegister32 : EpiphanyRegister
 {
-    private this(EpiphanyRegisterName name)
+    private this(EpiphanyRegisterName name) pure
     {
         super(name);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory* memory)
+    private this(EpiphanyRegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -249,7 +249,7 @@ public final class EpiphanyRegister32 : EpiphanyRegister
         super(name, memory);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory memory)
+    private this(EpiphanyRegisterName name, RegisterMemory memory) pure
     {
         super(name, memory);
     }
@@ -276,12 +276,12 @@ public final class EpiphanyRegister32 : EpiphanyRegister
 
 public class EpiphanySpecialRegister32 : EpiphanyRegister
 {
-    private this(EpiphanyRegisterName name)
+    private this(EpiphanyRegisterName name) pure
     {
         super(name);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory* memory)
+    private this(EpiphanyRegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -291,7 +291,7 @@ public class EpiphanySpecialRegister32 : EpiphanyRegister
         super(name, memory);
     }
 
-    private this(EpiphanyRegisterName name, RegisterMemory memory)
+    private this(EpiphanyRegisterName name, RegisterMemory memory) pure
     {
         super(name, memory);
     }
@@ -318,7 +318,7 @@ public class EpiphanySpecialRegister32 : EpiphanyRegister
 
 public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
 {
-    public this(EpiphanyRegisterName name)
+    public this(EpiphanyRegisterName name) pure
     in
     {
         assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
@@ -328,7 +328,7 @@ public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
         super(name);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory* memory)
+    public this(EpiphanyRegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
@@ -339,7 +339,7 @@ public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory memory)
+    public this(EpiphanyRegisterName name, RegisterMemory memory) pure
     in
     {
         assert(name == EpiphanyRegisterName.ctimer0 || name == EpiphanyRegisterName.ctimer1);
@@ -362,12 +362,12 @@ public final class EpiphanyTimerRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyConfigRegister32 : EpiphanySpecialRegister32
 {
-    public this()
+    public this() pure
     {
         super(EpiphanyRegisterName.config);
     }
 
-    public this(RegisterMemory* memory)
+    public this(RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -377,7 +377,7 @@ public final class EpiphanyConfigRegister32 : EpiphanySpecialRegister32
         super(EpiphanyRegisterName.config, memory);
     }
 
-    public this(RegisterMemory memory)
+    public this(RegisterMemory memory) pure
     {
         super(EpiphanyRegisterName.config, memory);
     }
@@ -413,12 +413,12 @@ public final class EpiphanyConfigRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyStatusRegister32 : EpiphanySpecialRegister32
 {
-    public this()
+    public this() pure
     {
         super(EpiphanyRegisterName.status);
     }
 
-    public this(RegisterMemory* memory)
+    public this(RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -428,7 +428,7 @@ public final class EpiphanyStatusRegister32 : EpiphanySpecialRegister32
         super(EpiphanyRegisterName.status, memory);
     }
 
-    public this(RegisterMemory memory)
+    public this(RegisterMemory memory) pure
     {
         super(EpiphanyRegisterName.status, memory);
     }
@@ -465,7 +465,7 @@ public final class EpiphanyStatusRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
 {
-    public this(EpiphanyRegisterName name)
+    public this(EpiphanyRegisterName name) pure
     in
     {
         assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
@@ -475,7 +475,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
         super(name);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory* memory)
+    public this(EpiphanyRegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
@@ -486,7 +486,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory memory)
+    public this(EpiphanyRegisterName name, RegisterMemory memory) pure
     in
     {
         assert(name == EpiphanyRegisterName.dma0config || name == EpiphanyRegisterName.dma1config);
@@ -535,7 +535,7 @@ public final class EpiphanyDMAConfigRegister32 : EpiphanySpecialRegister32
 
 public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
 {
-    public this(EpiphanyRegisterName name)
+    public this(EpiphanyRegisterName name) pure
     in
     {
         assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
@@ -545,7 +545,7 @@ public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
         super(name);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory* memory)
+    public this(EpiphanyRegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);
@@ -556,7 +556,7 @@ public final class EpiphanyDMAStatusRegister32 : EpiphanySpecialRegister32
         super(name, memory);
     }
 
-    public this(EpiphanyRegisterName name, RegisterMemory memory)
+    public this(EpiphanyRegisterName name, RegisterMemory memory) pure
     in
     {
         assert(name == EpiphanyRegisterName.dma0status || name == EpiphanyRegisterName.dma1status);

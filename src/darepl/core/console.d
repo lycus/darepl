@@ -25,7 +25,7 @@ body
 
 public Nullable!string read(Architecture arch, ubyte bits)
 {
-    auto line = readline(toStringz(xformat("%s-%s> ", arch, bits)));
+    auto line = readline(toStringz(format("%s-%s> ", arch, bits)));
 
     scope (exit)
         free(line);

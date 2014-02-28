@@ -131,14 +131,14 @@ public abstract class X86Register : Register
 {
     private X86RegisterName _register;
 
-    protected this(X86RegisterName name)
+    protected this(X86RegisterName name) pure
     {
         super(to!string(name));
 
         _register = name;
     }
 
-    protected this(X86RegisterName name, RegisterMemory* memory)
+    protected this(X86RegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -150,7 +150,7 @@ public abstract class X86Register : Register
         _register = name;
     }
 
-    protected this(X86RegisterName name, RegisterMemory memory)
+    protected this(X86RegisterName name, RegisterMemory memory) pure
     {
         super(to!string(name), memory);
 
@@ -167,12 +167,12 @@ public abstract class X86Register : Register
 
 public final class X86Register32 : X86Register
 {
-    public this(X86RegisterName name)
+    public this(X86RegisterName name) pure
     {
         super(name);
     }
 
-    public this(X86RegisterName name, RegisterMemory* memory)
+    public this(X86RegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -182,7 +182,7 @@ public final class X86Register32 : X86Register
         super(name, memory);
     }
 
-    public this(X86RegisterName name, RegisterMemory memory)
+    public this(X86RegisterName name, RegisterMemory memory) pure
     {
         super(name, memory);
     }
@@ -213,12 +213,12 @@ public final class X86Register32 : X86Register
 
 public final class X86RegisterFlags32 : X86Register
 {
-    public this()
+    public this() pure
     {
         super(X86RegisterName.eflags);
     }
 
-    public this(RegisterMemory* memory)
+    public this(RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -228,7 +228,7 @@ public final class X86RegisterFlags32 : X86Register
         super(X86RegisterName.eflags, memory);
     }
 
-    public this(RegisterMemory memory)
+    public this(RegisterMemory memory) pure
     {
         super(X86RegisterName.eflags, memory);
     }
@@ -272,12 +272,12 @@ public final class X86RegisterFlags32 : X86Register
 
 public final class X86Register64 : X86Register
 {
-    protected this(X86RegisterName name)
+    protected this(X86RegisterName name) pure
     {
         super(name);
     }
 
-    protected this(X86RegisterName name, RegisterMemory* memory)
+    protected this(X86RegisterName name, RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -287,7 +287,7 @@ public final class X86Register64 : X86Register
         super(name, memory);
     }
 
-    public this(X86RegisterName name, RegisterMemory memory)
+    public this(X86RegisterName name, RegisterMemory memory) pure
     {
         super(name, memory);
     }
@@ -318,12 +318,12 @@ public final class X86Register64 : X86Register
 
 public final class X86RegisterFlags64 : X86Register
 {
-    public this()
+    public this() pure
     {
         super(X86RegisterName.rflags);
     }
 
-    public this(RegisterMemory* memory)
+    public this(RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -333,7 +333,7 @@ public final class X86RegisterFlags64 : X86Register
         super(X86RegisterName.rflags, memory);
     }
 
-    public this(RegisterMemory memory)
+    public this(RegisterMemory memory) pure
     {
         super(X86RegisterName.rflags, memory);
     }
@@ -377,12 +377,12 @@ public final class X86RegisterFlags64 : X86Register
 
 public final class X86RegisterFloatFlags32 : X86Register
 {
-    public this()
+    public this() pure
     {
         super(X86RegisterName.mxcsr);
     }
 
-    public this(RegisterMemory* memory)
+    public this(RegisterMemory* memory) pure
     in
     {
         assert(memory);
@@ -392,7 +392,7 @@ public final class X86RegisterFloatFlags32 : X86Register
         super(X86RegisterName.mxcsr, memory);
     }
 
-    public this(RegisterMemory memory)
+    public this(RegisterMemory memory) pure
     {
         super(X86RegisterName.mxcsr, memory);
     }
